@@ -177,6 +177,13 @@ void routineedit_comp()
 	{
 		case '1':
 //			routineedit_comp();
+/*
+dispalys the current routine and Y/N to make any change is askes
+then if y 
+then asks which row and which column's cell to make the change in 
+then string replace or something 
+then again displays the changed routine
+*/
 			break;
 		case '2':
 			teacherinfoedit();
