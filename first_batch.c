@@ -1,6 +1,8 @@
 #include<windows.h>
+#include<string.h>
 #include<stdio.h>
 #include<conio.h>
+#include<stdlib.h>
 #include <stdlib.h>
 #include<string.h>                  //contains strcmp(),strcpy(),strlen(),etc
 #include<ctype.h>                   //contains toupper(), tolower(),etc
@@ -10,9 +12,18 @@
 
 #define RETURNTIME 15
 
+
+
+COORD coord = {0, 0};
+void gotoxy (int x, int y)
+{
+coord.X = x; coord.Y = y; // X and Y coordinates
+SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+}
+
 char catagories[][15]={"Computer","Electronics","Electrical","Civil","Mechnnical","Architecture"};
 void returnfunc(void);
-void menu(void);
+void mainmenu(void);
 void studentinfo(void);
 void teacherinfo(void);
 void classinfo(void);
@@ -23,7 +34,8 @@ void closeapplication(void);
 int  getdata();
 int  checkid(int);
 int t(void);
-
+void headMessage(char *message);
+void welcomeMessage();
 void Password();
 void issuerecord();
 void loaderanim();
@@ -43,27 +55,66 @@ struct meroDate
 {
 int mm,dd,yy;
 };
+//
+//struct books
+//{
+//int id;
+//char stname[20];
+//char name[20];
+//char Author[20];
+//int quantity;
+//float Price;
+//int count;
+//int rackno;
+//char *cat;
+//struct meroDate issued;
+//struct meroDate duedate;
+//};
+//
+//struct books a;
 
-struct books
+
+struct std{
+	int id;
+	char name[40];
+	char lname[40];
+	char fields[40];
+	int semester;
+}a;
+
+void headMessage(char *message)
 {
-int id;
-char stname[20];
-char name[20];
-char Author[20];
-int quantity;
-float Price;
-int count;
-int rackno;
-char *cat;
-struct meroDate issued;
-struct meroDate duedate;
-};
-
-struct books a;
-
-
+    system("cls");
+    printf("\t\t\t###########################################################################");
+    printf("\n\t\t\t############                                                   ############");
+    printf("\n\t\t\t############      Library management System Project in C       ############");
+    printf("\n\t\t\t############                                                   ############");
+    printf("\n\t\t\t###########################################################################");
+    printf("\n\t\t\t---------------------------------------------------------------------------\n");
+    printf("\n\t\t\t\t\t\t\t");
+    printf(message);
+    printf("\n\t\t\t----------------------------------------------------------------------------");
+}
+void welcomeMessage()
+{
+    headMessage("A Group Presentation");
+    printf("\n\n\n\n\n");
+    printf("\n\t\t\t  **-**-**-**-**-**-**-**-**-**-**-**-**-**-**-**-**-**-**\n");
+    printf("\n\t\t\t        =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+    printf("\n\t\t\t        =                 WELCOME                   =");
+    printf("\n\t\t\t        =                   TO                      =");
+    printf("\n\t\t\t        =                 LIBRARY                   =");
+    printf("\n\t\t\t        =               MANAGEMENT                  =");
+    printf("\n\t\t\t        =                 SYSTEM                    =");
+    printf("\n\t\t\t        =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+    printf("\n\t\t\t  **-**-**-**-**-**-**-**-**-**-**-**-**-**-**-**-**-**-**\n");
+    printf("\n\n\n\t\t\t Enter any key to continue.....");
+    getch();
+}
 int main()
 {
+	welcomeMessage();
+	headMessage("Login");
 Password();
 getch();
 return 0;
@@ -73,7 +124,60 @@ return 0;
 
 void studentinfo()
 {
-	printf("hello world");
+	/*
+	FILE *fp;
+	fp=fopen("this.dat",wb);
+	rewind(fp);
+	while((fread(&a,sizeof(a),1,fs)==1)// where a is a structure of the student
+	whlie(fp != EOF)
+	{
+		printf("%",structure.attribute);
+	}
+	fclose(fp);
+		
+	*/
+	
+	FILE *fp;
+	fp=fopen("C:\\Users\\user\\Documents\\KCC\\Project - 1st semester\\student management system\\Data.dat","r+b");
+	if(fp==NULL)
+	{
+		fp=fopen("C:\\Users\\user\\Documents\\KCC\\Project - 1st semester\\student management system\\Data.dat","w+b");
+		if(fp==NULL)
+		printf("file cannot not be created");
+		exit(0);
+	}
+	char cont;
+	do
+	{
+		printf("enter student's first name, last name, semester, id, field\n");
+		scanf("%s%s%d%d%s",a.name,a.lname,&a.semester,&a.id,a.fields);
+		fwrite(&a,sizeof(struct std),1,fp);
+		if(fwrite(&a,sizeof(struct std),1,fp)==1)
+		printf("record has been sucessfully added\n");
+		printf("do you want to enter more datas(Y\\N)?\n");
+		fflush(stdin);
+		cont=getchar();
+		cont=tolower(cont);
+	}while(cont=='y');
+	fclose(fp);
+	printf("enter m or M to go back to main menu\n");
+	printf("_____________________________________\n");
+	fflush(stdin);
+	scanf("%c",&cont);
+	printf("%c",cont);
+	if(cont=='M' || cont =='m')
+	{
+			mainmenu();
+	}
+	
+//
+//rewind(fp);
+//
+//while(fread(&a,sizeof(struct std),1,fp)==1)
+//	{
+//		printf("%s%s%d%d%s\n",a.name,a.lname,a.semester,a.id,a.fields);	
+//	}
+	
 }
 void teacherinfo(){
 	printf("hello world");
@@ -99,8 +203,8 @@ void mainmenu()
 system("cls");
 //    textbackground(13);
 int i;
-//gotoxy(20,3);
-printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2 MAIN MENU \xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
+gotoxy(20,3);
+//printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2 MAIN MENU \xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
 
 printf("\n");
 //gotoxy(20,5);
@@ -221,7 +325,11 @@ return 0 ;
 
 void Password(void) //for password option
 {
+	
 system("cls");
+headMessage("Password");
+printf("\n");
+printf("\t\t\t\t");
 char d[25]="Password Protected";
 
 char ch,pass[10];
@@ -234,7 +342,7 @@ for(j=0;j<20;j++)
 Sleep(50);
 printf("*");
 }
-for(j=0;j<20;j++)
+for(j=0;j<18;j++)
 {
 Sleep(50);
 printf("%c",d[j]);
@@ -246,6 +354,7 @@ printf("*");
 }
 printf("\n");
 
+printf("\t\t\t\t");
 //gotoxy(10,10);
 //gotoxy(15,7);
 printf("Enter Password:");
@@ -268,10 +377,12 @@ if(strcmp(pass,password)==0)
 //textcolor(BLINK);
 printf("\n");
 
+printf("\t\t\t\t");
 printf("Password match");
 //gotoxy(17,10);
 printf("\n");
 
+printf("\t\t\t\t");
 printf("Press any key to continue.....");
 getch();
 mainmenu();
@@ -279,6 +390,8 @@ mainmenu();
 else
 {
 //gotoxy(15,16);
+
+printf("\n\t\t\t\t");
 printf("\aWarning!! Incorrect Password");
 getch();
 Password();
