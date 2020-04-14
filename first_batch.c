@@ -21,11 +21,12 @@ coord.X = x; coord.Y = y; // X and Y coordinates
 SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
 
-char catagories[][15]={"Computer","Electronics","Electrical","Civil","Mechnnical","Architecture"};
+char categorie[][15]={"Computer","Electronics","Electrical","Civil","Mechnnical","Architecture"};
 void returnfunc(void);
 void mainmenu(void);
 void studentinfo(void);
 void teacherinfo(void);
+void examinfos();
 void classinfo(void);
 void routineinfo(void);
 void issuebooks(void);
@@ -41,13 +42,21 @@ void issuerecord();
 void loaderanim();
 
 
+
+void studentinfoedit();
+void teacherinfoedit();
+void routineedit();
+
+
+void routineedit_comp();
+
 FILE *fp,*ft,*fs;
 
 
 
 int s;
 //char studentinfo;
-char password[20]={"notpassword"};
+char password[20]={"fjfj"};
 
 
 
@@ -81,6 +90,15 @@ struct std{
 	char fields[40];
 	int semester;
 }a;
+
+
+
+struct teach{
+	int id;
+	char name[40];
+	char lname[40];
+	char fields[40];
+}aa;
 
 void headMessage(char *message)
 {
@@ -121,8 +139,98 @@ return 0;
 
 }
 
+void routineedit_comp()
+{
+	system("cls");
+	gotoxy(20,3);
+	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2 SELECT THE ONE THAT YOU WANT TO EDIT \xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
 
-void studentinfo()
+	gotoxy(20,5);
+	printf("\xDB\xDB\xDB\xDB\xB2 1. Semester 1   ");
+	
+	gotoxy(20,7);
+	printf("\xDB\xDB\xDB\xDB\xB2 2. Semester 2   ");
+
+	gotoxy(20,9);
+	printf("\xDB\xDB\xDB\xDB\xB2 3. Semester 3   ");
+
+	gotoxy(20,11);
+	printf("\xDB\xDB\xDB\xDB\xB2 4. Semester 4   ");
+	
+	gotoxy(20,13);
+	printf("\xDB\xDB\xDB\xDB\xB2 5. Semester 5   ");
+	
+	gotoxy(20,15);
+	printf("\xDB\xDB\xDB\xDB\xB2 6. Semester 6   ");
+	
+	gotoxy(20,17);
+	printf("\xDB\xDB\xDB\xDB\xB2 7. Semester 7   ");
+	
+	gotoxy(20,19);
+	printf("\xDB\xDB\xDB\xDB\xB2 8. Semester 8   ");
+	
+	
+	gotoxy(20,21);
+	printf("Enter your choice:");
+
+	switch(getch())
+	{
+		case '1':
+//			routineedit_comp();
+			break;
+		case '2':
+			teacherinfoedit();
+			break;
+		case '3':
+			routineinfo();
+			break;
+		case '4':
+			examinfos();
+			break;
+	
+	}
+
+	
+}
+
+void teacherinfoedit()
+{
+	system("cls");
+	FILE *fp;
+	fp=fopen("C:\\Users\\user\\Documents\\KCC\\Project - 1st semester\\student management system\\Data_Teacher.dat","r+b");
+	if(fp==NULL)
+	{
+		fp=fopen("C:\\Users\\user\\Documents\\KCC\\Project - 1st semester\\student management system\\Data_Teacher.dat","w+b");
+		if(fp==NULL)
+		printf("file cannot not be created");
+		exit(0);
+	}
+	char cont;
+	do
+	{
+		printf("enter student's first name, last name, id, field\n");
+		scanf("%s%s%d%s",aa.name,aa.lname,&aa.id,aa.fields);
+		fwrite(&aa,sizeof(struct teach),1,fp);
+		if(fwrite(&aa,sizeof(struct teach),1,fp)==1)
+		printf("record has been sucessfully added\n");
+		printf("do you want to enter more datas(Y\\N)?\n");
+		fflush(stdin);
+		cont=getchar();
+		cont=tolower(cont);
+	}while(cont=='y');
+	fclose(fp);
+	printf("enter m or M to go back to main menu\n");
+	printf("_____________________________________\n");
+	fflush(stdin);
+	scanf("%c",&cont);
+	printf("%c",cont);
+	if(cont=='M' || cont =='m')
+	{
+			mainmenu();
+	}
+	
+}
+void studentinfoedit()
 {
 	/*
 	FILE *fp;
@@ -136,12 +244,12 @@ void studentinfo()
 	fclose(fp);
 		
 	*/
-	
+	system("cls");
 	FILE *fp;
-	fp=fopen("C:\\Users\\user\\Documents\\KCC\\Project - 1st semester\\student management system\\Data.dat","r+b");
+	fp=fopen("C:\\Users\\user\\Documents\\KCC\\Project - 1st semester\\student management system\\Data_Student.dat","r+b");
 	if(fp==NULL)
 	{
-		fp=fopen("C:\\Users\\user\\Documents\\KCC\\Project - 1st semester\\student management system\\Data.dat","w+b");
+		fp=fopen("C:\\Users\\user\\Documents\\KCC\\Project - 1st semester\\student management system\\Data_Student.dat","w+b");
 		if(fp==NULL)
 		printf("file cannot not be created");
 		exit(0);
@@ -179,223 +287,299 @@ void studentinfo()
 //	}
 	
 }
+
+void routineedit()
+{
+	system("cls");
+	gotoxy(20,3);
+	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2 SELECT THE ONE THAT YOU WANT TO EDIT \xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
+
+	gotoxy(20,5);
+	printf("\xDB\xDB\xDB\xDB\xB2 1. %s   ",categorie[0]);
+	
+	gotoxy(20,7);
+	printf("\xDB\xDB\xDB\xDB\xB2 2. %s",categorie[1]);
+
+	gotoxy(20,9);
+	printf("\xDB\xDB\xDB\xDB\xB2 3. %s",categorie[2]);
+
+	gotoxy(20,11);
+	printf("\xDB\xDB\xDB\xDB\xB2 4. %s ",categorie[3]);
+	
+	gotoxy(20,13);
+	printf("\xDB\xDB\xDB\xDB\xB2 3. %s",categorie[4]);
+
+	gotoxy(20,15);
+	printf("\xDB\xDB\xDB\xDB\xB2 4. %s ",categorie[5]);
+
+	gotoxy(20,17);
+	printf("Enter your choice:");
+
+	switch(getch())
+	{
+		case '1':
+			routineedit_comp();
+			break;
+		case '2':
+			teacherinfoedit();
+			break;
+		case '3':
+			routineinfo();
+			break;
+		case '4':
+			examinfos();
+			break;
+	
+	}
+	
+}
+
+
+
+void studentinfo()
+{
+	printf("hello world\n");
+}
 void teacherinfo(){
 	printf("hello world");
 }
 void routineinfo(){
 	printf("hello world");
 }
-void examinfos()   {
+void examinfos(){
 	printf("hello world");
 }
-void attendance() {
-	printf("hello world");
-}
-void result() 	{
-	printf("hello world");
-}
+void edit() 
+	{
 
+	system("cls");
+	gotoxy(20,3);
+	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2 SELECT THE ONE THAT YOU WANT TO EDIT \xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
+
+	gotoxy(20,5);
+	printf("\xDB\xDB\xDB\xDB\xB2 1. Student info   ");
+	
+	gotoxy(20,7);
+	printf("\xDB\xDB\xDB\xDB\xB2 2. Teacher info");
+
+	gotoxy(20,9);
+	printf("\xDB\xDB\xDB\xDB\xB2 3. Routine ");
+
+	gotoxy(20,11);
+	printf("\xDB\xDB\xDB\xDB\xB2 4. Exam ");
+
+	gotoxy(20,13);
+	printf("Enter your choice:");
+
+	switch(getch())
+	{
+		case '1':
+			studentinfoedit();
+			break;
+		case '2':
+			teacherinfoedit();
+			break;
+		case '3':
+			routineedit();
+			break;
+		case '4':
+			examinfos();
+			break;
+	
+	}
+
+	}
+void result(){
+	printf("hello world");
+}
 
 
 void mainmenu()
 {
-//loaderanim();
-system("cls");
-//    textbackground(13);
-int i;
-gotoxy(20,3);
-//printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2 MAIN MENU \xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
+	//loaderanim();
+	system("cls");
+	//    textbackground(13);
+	int i;
+	gotoxy(20,3);
+	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2 MAIN MENU \xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
+	
+	gotoxy(20,5);
+	printf("\xDB\xDB\xDB\xDB\xB2 1. Student info   ");
+	
+	gotoxy(20,7);
+	printf("\xDB\xDB\xDB\xDB\xB2 2. Teacher info");
+	
+	gotoxy(20,9);
+	
+	printf("\xDB\xDB\xDB\xDB\xB2 3. Routine ");
+	gotoxy(20,11);
+	
+	printf("\xDB\xDB\xDB\xDB\xB2 4. Exam ");
+	gotoxy(20,13);
+	
+	printf("\xDB\xDB\xDB\xDB\xB2 5. Edit");
+	gotoxy(20,15);
+	
+	printf("\xDB\xDB\xDB\xDB\xB2 6. Result");
+	gotoxy(20,17);
+	
+	printf("\xDB\xDB\xDB\xDB\xB2 7. Close Application");
+	gotoxy(20,19);
 
-printf("\n");
-//gotoxy(20,5);
-printf("\xDB\xDB\xDB\xDB\xB2 1. Student info   ");
-printf("\n");
-
-//gotoxy(20,7);
-printf("\xDB\xDB\xDB\xDB\xB2 2. Teacher info");
-printf("\n");
-
-//gotoxy(20,9);
-
-printf("\xDB\xDB\xDB\xDB\xB2 3. Routine ");
-//gotoxy(20,11);
-printf("\n");
-
-printf("\xDB\xDB\xDB\xDB\xB2 4. Exam ");
-//gotoxy(20,13);
-printf("\n");
-
-printf("\xDB\xDB\xDB\xDB\xB2 5. Attendance");
-//gotoxy(20,15);
-printf("\n");
-
-printf("\xDB\xDB\xDB\xDB\xB2 6. Result");
-//gotoxy(20,17);
-printf("\n");
-
-printf("\xDB\xDB\xDB\xDB\xB2 7. Close Application");
-//gotoxy(20,19);
-printf("\n");
-
-printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
-//gotoxy(20,20);
-printf("\n");
-
-t();
-//gotoxy(20,21);
-printf("Enter your choice:");
-switch(getch())
-{
-case '1':
-studentinfo();
-break;
-case '2':
-teacherinfo();
-break;
-case '3':
-routineinfo();
-break;
-case '4':
-examinfos();
-break;
-case '5':
-attendance();
-break;
-case '6':
-result();
-break;
-case '7':
-{
-system("cls");
-//gotoxy(16,3);
-printf("\n");
-
-printf("Student Management System");
-//gotoxy(16,4);
-printf("\tMini Project in C");
-//gotoxy(16,5);
-printf("\t this brought to you by");
-//gotoxy(16,7);
-printf("\tMilan Shrestha");
-//gotoxy(16,8);
-printf("\n");
-
-printf("******************************************");
-//gotoxy(16,10);
-printf("\n");
-
-printf("*******************************************");
-//gotoxy(16,11);
-printf("\n");
-
-printf("*******************************************");
-//gotoxy(16,13);
-printf("\n");
-
-printf("********************************************");
-//gotoxy(10,17);
-printf("\n");
-
-printf("Exiting in 3 second...........>");
-//flushall();
-Sleep(3000);
-exit(0);
+	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
+	gotoxy(20,20);
+	
+	
+	t();
+	gotoxy(20,21);
+	printf("Enter your choice:");
+	switch(getch())
+	{
+		case '1':
+			studentinfo();
+			break;
+		case '2':
+			teacherinfo();
+			break;
+		case '3':
+			routineinfo();
+			break;
+		case '4':
+			examinfos();
+			break;
+		case '5':
+			edit();
+			break;
+		case '6':
+			result();
+			break;
+		case '7':
+		{
+			system("cls");
+			gotoxy(65,3);
+			
+			printf("Student Management System");
+			gotoxy(65,4);
+			printf("Mini Project in C");
+			gotoxy(65,5);
+			printf("This brought to you by");
+			gotoxy(65,7);
+			printf("Milan Shrestha");
+			gotoxy(55,8);
+			
+			printf("******************************************");
+			gotoxy(55,10);
+			
+			printf("*******************************************");
+			gotoxy(55,11);
+			
+			printf("*******************************************");
+			gotoxy(55,13);
+			
+			printf("********************************************");
+			gotoxy(65,17);
+			
+			printf("Exiting in 3 second...........>");
+			//flushall();
+			Sleep(3000);
+			exit(0);
+		}
+		default:
+		{
+			//gotoxy(10,23);
+			printf("\aWrong Entry!!Please re-entered correct option");
+			if(getch())
+			mainmenu();
+		}
+	
+	}
 }
-default:
-{
-//gotoxy(10,23);
-printf("\aWrong Entry!!Please re-entered correct option");
-if(getch())
-mainmenu();
-}
-
-}
-}
-
-
-
+	
+	
+	
 int t(void) //for time
 {
-time_t t;
-time(&t);
-printf("Date and time:%s\n",ctime(&t));
-
-return 0 ;
+	time_t t;
+	time(&t);
+	printf("Date and time:%s\n",ctime(&t));
+	
+	return 0 ;
 }
-
+	
 void Password(void) //for password option
 {
 	
-system("cls");
-headMessage("Password");
-printf("\n");
-printf("\t\t\t\t");
-char d[25]="Password Protected";
-
-char ch,pass[10];
-int i=0,j;
-//textbackground(WHITE);
-//textcolor(RED);
-//gotoxy(10,4);
-for(j=0;j<20;j++)
-{
-Sleep(50);
-printf("*");
-}
-for(j=0;j<18;j++)
-{
-Sleep(50);
-printf("%c",d[j]);
-}
-for(j=0;j<20;j++)
-{
-Sleep(50);
-printf("*");
-}
-printf("\n");
-
-printf("\t\t\t\t");
-//gotoxy(10,10);
-//gotoxy(15,7);
-printf("Enter Password:");
-
-while(ch!=13)
-{
-ch=getch();
-
-if(ch!=13 && ch!=8){
-putch('*');
-pass[i] = ch;
-i++;
-}
-}
-pass[i] = '\0';
-if(strcmp(pass,password)==0)
-{
-
-//gotoxy(15,9);
-//textcolor(BLINK);
-printf("\n");
-
-printf("\t\t\t\t");
-printf("Password match");
-//gotoxy(17,10);
-printf("\n");
-
-printf("\t\t\t\t");
-printf("Press any key to continue.....");
-getch();
-mainmenu();
-}
-else
-{
-//gotoxy(15,16);
-
-printf("\n\t\t\t\t");
-printf("\aWarning!! Incorrect Password");
-getch();
-Password();
-}
+	system("cls");
+	headMessage("Password");
+	printf("\n");
+	printf("\t\t\t\t");
+	char d[25]="Password Protected";
+	
+	char ch,pass[10];
+	int i=0,j;
+	//textbackground(WHITE);
+	//textcolor(RED);
+	//gotoxy(10,4);
+	for(j=0;j<20;j++)
+	{
+	Sleep(50);
+	printf("*");
+	}
+	for(j=0;j<18;j++)
+	{
+	Sleep(50);
+	printf("%c",d[j]);
+	}
+	for(j=0;j<20;j++)
+	{
+	Sleep(50);
+	printf("*");
+	}
+	printf("\n");
+	
+	printf("\t\t\t\t");
+	//gotoxy(10,10);
+	//gotoxy(15,7);
+	printf("Enter Password:");
+	
+	while(ch!=13)
+	{
+		ch=getch();
+		
+		if(ch!=13 && ch!=8)
+		{
+			putch('*');
+			pass[i] = ch;
+			i++;
+		}
+	}
+	pass[i] = '\0';
+	if(strcmp(pass,password)==0)
+	{
+	
+		//gotoxy(15,9);
+		//textcolor(BLINK);
+		printf("\n");
+		
+		printf("\t\t\t\t");
+		printf("Password match");
+		//gotoxy(17,10);
+		printf("\n");
+		
+		printf("\t\t\t\t");
+		printf("Press any key to continue.....");
+		getch();
+		mainmenu();
+	}
+	else
+	{
+		//gotoxy(15,16);
+		
+		printf("\n\t\t\t\t");
+		printf("\aWarning!! Incorrect Password");
+		getch();
+		Password();
+	}
 }
 //
 //void issuerecord()  //display issued book's information
@@ -407,4 +591,4 @@ Password();
 //printf("Issued Date:%d-%d-%d",a.issued.dd,a.issued.mm,a.issued.yy);
 ////gotoxy(10,10);
 //printf("Returning Date:%d-%d-%d",a.duedate.dd,a.duedate.mm,a.duedate.yy);
-//}
+//}/}
