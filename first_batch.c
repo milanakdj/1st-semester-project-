@@ -13,6 +13,10 @@
 
 #define RETURNTIME 15
 
+bool sixp_flag = false;
+bool isHoliday = false;
+char firp[40] = "MATHS", secp[40] = "C PROGRAMMING", thp[40] = "BREAK", foup[40] = "COMPUTER FUNDAMENTALS", fifp[40] = "MODERN BUSINESS PRACTICE", sixp[40] = "NONE"; //DECLARATION FOR NORMAL PERIODS OF CURRENT DAY
+char strEdit[40];
 
 
 COORD coord = {0, 0};
@@ -41,7 +45,7 @@ void welcomeMessage();
 void Password();
 void issuerecord();
 void loaderanim();
-
+void mainroutineedit();
 
 
 void studentinfoedit();
@@ -177,14 +181,7 @@ void routineedit_comp()
 	switch(getch())
 	{
 		case '1':
-//			routineedit_comp();
-/*
-dispalys the current routine and Y/N to make any change is askes
-then if y 
-then asks which row and which column's cell to make the change in 
-then string replace or something 
-then again displays the changed routine
-*/
+			mainroutineedit();
 			break;
 		case '2':
 			teacherinfoedit();
@@ -199,6 +196,55 @@ then again displays the changed routine
 	}
 
 	
+}
+
+void mainroutineedit(){
+	routineinfo();
+	int n;
+	char ch;
+	flag_check:
+	do{
+		printf("Which Period would you like to change: ");
+		scanf("%d",&n);
+	}while(n>6||n<1);
+	if(n==6 & !sixp_flag)
+	goto flag_check;
+	printf("Enter Subject..");
+	fflush(stdin);
+	scanf("%[^\n]",strEdit);
+	switch(n){
+		case 1:
+			strcpy(firp,strEdit);
+			strupr(firp);
+			break;
+		case 2:
+			strcpy(secp,strEdit);
+			strupr(secp);
+			break;
+		case 3:
+			strcpy(thp,strEdit);
+			strupr(thp);
+			break;
+		case 4:
+			strcpy(foup,strEdit);
+			strupr(foup);
+			break;
+		case 5:
+			strcpy(fifp,strEdit);
+			strupr(fifp);
+			break;
+		case 6:
+			strcpy(sixp,strEdit);
+			strupr(sixp);
+			break;
+	}
+	system("cls");
+	routineinfo();
+	printf("Would you like to edit more?(Y|N): ");
+	fflush(stdin);
+	ch = getchar();
+	if(toupper(ch) == 'Y')
+	goto flag_check;
 }
 
 void teacherinfoedit()
@@ -359,12 +405,9 @@ void routineinfo(){
 		AND PRINT THE RESPECTIVE PERIODS OF THE RESPECTIVE DAY WITH TIME
 	*/
 	system("cls");
-	bool sixp_flag = false;
-	bool isHoliday = false;
 	time_t s;
 	struct tm * cur_time;
 	char * day; // THIS IS FOR PRINTING TODAYS DAY
-	char * firp = "MATHS", * secp = "C PROGRAMMING", * thp = "BREAK", * foup = "COMPUTER FUNDAMENTALS", * fifp = "MODERN BUSINESS PRACTICE", * sixp = "NONE"; //DECLARATION FOR NORMAL PERIODS OF CURRENT DAY
 	char * firp_t = "7:00 - 8:00" , * secp_t = "8:00 - 9:00", * thp_t = "9:00 - 9:30", * foup_t = "9:30 - 10:30", * fifp_t = "10:30 - 11:30", * sixp_t = "NONE"; // DECLARTION OF REGULAR PERIOD'S TIME OF CURRENT DAY
 	s = time(NULL);
 	cur_time = localtime(&s);
@@ -376,18 +419,18 @@ void routineinfo(){
 		case 1:
 			sixp_flag = true;
 			day = "MONDAY";
-			secp = "C PROGRAMMING - LAB";
-			thp = "C PROGRAMMING - LAB";
+			strcpy(secp,"C PROGRAMMING - LAB");
+			strcpy(thp,"C PROGRAMMING - LAB");
 			thp_t = "9:00 - 10:00";
 			foup_t = "10:00 - 10:30";
-			foup = "BREAK";
-			fifp = "TECHNICAL ENGLISH";
+			strcpy(foup, "BREAK");
+			strcpy(fifp, "TECHNICAL ENGLISH");
 			sixp_t = "11:30 - 12:30";
-			sixp = "MODERN BUSINESS PRACTICE";
+			strcpy(sixp, "MODERN BUSINESS PRACTICE");
 			break;
 		case 2:
 			day = "TUESDAY";
-			fifp = "TECHNICAL ENGLISH";
+			strcpy(fifp, "TECHNICAL ENGLISH");
 			break;	
 		case 3:
 			day = "WEDNESDAY";
@@ -397,14 +440,14 @@ void routineinfo(){
 			break;	
 		case 5:
 			day = "FRIDAY";
-			foup = "TECHNICAL ENGLISH";
-			fifp = "COMPUTER FUNDAMENTALS";
+			foup, "TECHNICAL ENGLISH";
+			fifp, "COMPUTER FUNDAMENTALS";
 			break;	
 		case 6:
 			day = "SATURDAY";
-			firp = "CSC - LAB";
-			secp = "CSC - LAB";
-			foup = "TECHNICAL ENGLISH";
+			strcpy(firp, "CSC - LAB");
+			strcpy(secp, "CSC - LAB");
+			strcpy(foup,"TECHNICAL ENGLISH");
 			break;	
 	}
 	if(isHoliday == true){
