@@ -348,9 +348,11 @@ void studentinfo()
 {
 	printf("hello world\n");
 }
+
 void teacherinfo(){
 	printf("hello world");
 }
+
 void routineinfo(){
 	/*
 		AUTOMATIC RECOGNITION OF DAY OF THE WEEK 
@@ -379,12 +381,13 @@ void routineinfo(){
 			thp_t = "9:00 - 10:00";
 			foup_t = "10:00 - 10:30";
 			foup = "BREAK";
-			fifp = "ENGLISH";
+			fifp = "TECHNICAL ENGLISH";
 			sixp_t = "11:30 - 12:30";
 			sixp = "MODERN BUSINESS PRACTICE";
 			break;
 		case 2:
 			day = "TUESDAY";
+			fifp = "TECHNICAL ENGLISH";
 			break;	
 		case 3:
 			day = "WEDNESDAY";
@@ -394,12 +397,14 @@ void routineinfo(){
 			break;	
 		case 5:
 			day = "FRIDAY";
+			foup = "TECHNICAL ENGLISH";
+			fifp = "COMPUTER FUNDAMENTALS";
 			break;	
 		case 6:
 			day = "SATURDAY";
 			firp = "CSC - LAB";
 			secp = "CSC - LAB";
-			foup = "ENGLISH";
+			foup = "TECHNICAL ENGLISH";
 			break;	
 	}
 	if(isHoliday == true){
