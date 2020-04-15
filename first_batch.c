@@ -8,6 +8,7 @@
 #include<ctype.h>                   //contains toupper(), tolower(),etc
 #include<dos.h>                     //contains _dos_getdate
 #include<time.h>
+#include<stdbool.h>
 //#include<bios.h>
 
 #define RETURNTIME 15
@@ -351,7 +352,77 @@ void teacherinfo(){
 	printf("hello world");
 }
 void routineinfo(){
-	printf("hello world");
+	/*
+		AUTOMATIC RECOGNITION OF DAY OF THE WEEK 
+		AND PRINT THE RESPECTIVE PERIODS OF THE RESPECTIVE DAY WITH TIME
+	*/
+	system("cls");
+	bool sixp_flag = false;
+	bool isHoliday = false;
+	time_t s;
+	struct tm * cur_time;
+	char * day; // THIS IS FOR PRINTING TODAYS DAY
+	char * firp = "MATHS", * secp = "C PROGRAMMING", * thp = "BREAK", * foup = "COMPUTER FUNDAMENTALS", * fifp = "MODERN BUSINESS PRACTICE", * sixp = "NONE"; //DECLARATION FOR NORMAL PERIODS OF CURRENT DAY
+	char * firp_t = "7:00 - 8:00" , * secp_t = "8:00 - 9:00", * thp_t = "9:00 - 9:30", * foup_t = "9:30 - 10:30", * fifp_t = "10:30 - 11:30", * sixp_t = "NONE"; // DECLARTION OF REGULAR PERIOD'S TIME OF CURRENT DAY
+	s = time(NULL);
+	cur_time = localtime(&s);
+	switch(cur_time->tm_wday){
+		case 0:
+			day = "SUNDAY";
+			isHoliday = true;
+			break;
+		case 1:
+			sixp_flag = true;
+			day = "MONDAY";
+			secp = "C PROGRAMMING - LAB";
+			thp = "C PROGRAMMING - LAB";
+			thp_t = "9:00 - 10:00";
+			foup_t = "10:00 - 10:30";
+			foup = "BREAK";
+			fifp = "ENGLISH";
+			sixp_t = "11:30 - 12:30";
+			sixp = "MODERN BUSINESS PRACTICE";
+			break;
+		case 2:
+			day = "TUESDAY";
+			break;	
+		case 3:
+			day = "WEDNESDAY";
+			break;	
+		case 4:
+			day = "THRUSDAY";
+			break;	
+		case 5:
+			day = "FRIDAY";
+			break;	
+		case 6:
+			day = "SATURDAY";
+			firp = "CSC - LAB";
+			secp = "CSC - LAB";
+			foup = "ENGLISH";
+			break;	
+	}
+	if(isHoliday == true){
+		printf("\t\t\t\t\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2 %s  \xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\n",day);
+		printf("\n");
+		printf("\t\t\t\t\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2 HOLIDAY \xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\n");
+	}else{
+		printf("\t\t\t\t\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2 ROUTINE FOR %s \xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\n",day);
+		printf("|-----------------------------------------------------------------------------------------------------------------|\n");
+		printf("|           TIME        |                                    PERIODS                                              |\n");
+		printf("|-----------------------------------------------------------------------------------------------------------------|\n");
+		printf("|\t%s\t|\t\t%s\t\t\n",firp_t,firp);
+		printf("|\t%s\t|\t\t%s\t\t\n",secp_t,secp);
+		printf("|\t%s\t|\t\t%s\t\t\n",thp_t,thp);
+		printf("|\t%s\t|\t\t%s\t\t\n",foup_t,foup);
+		printf("|\t%s\t|\t\t%s\t\t\n",fifp_t,fifp);
+		if(sixp_flag == true){
+			printf("|\t%s\t|\t\t%s\t\t\n",sixp_t,sixp);
+			printf("|-----------------------------------------------------------------------------------------------------------------|\n");	
+		}else{
+			printf("|-----------------------------------------------------------------------------------------------------------------|\n");	
+		}
+	}	
 }
 void examinfos(){
 	printf("hello world");
