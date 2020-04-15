@@ -252,20 +252,19 @@ void teacherinfoedit()
 {
 	system("cls");
 	FILE *fp;
-	fp=fopen("C:\\Users\\user\\Documents\\KCC\\Project - 1st semester\\student management system\\Data_Teacher.dat","r+b");
-	if(fp==NULL)
-	{
-		fp=fopen("C:\\Users\\user\\Documents\\KCC\\Project - 1st semester\\student management system\\Data_Teacher.dat","w+b");
-		if(fp==NULL)
-		printf("file cannot not be created");
-		exit(0);
-	}
+	fp=fopen("Data_Teacher.dat","a+b");
+//	if(fp==NULL)
+//	{
+//		fp=fopen("Data_Teacher.dat","w+b");
+//		if(fp==NULL)
+//		printf("file cannot not be created");
+//		exit(0);
+//	}
 	char cont;
 	do
 	{
 		printf("enter student's first name, last name, id, field\n");
 		scanf("%s%s%d%s",aa.name,aa.lname,&aa.id,aa.fields);
-		fwrite(&aa,sizeof(struct teach),1,fp);
 		if(fwrite(&aa,sizeof(struct teach),1,fp)==1)
 		printf("record has been sucessfully added\n");
 		printf("do you want to enter more datas(Y\\N)?\n");
@@ -301,14 +300,15 @@ void studentinfoedit()
 	*/
 	system("cls");
 	FILE *fp;
-	fp=fopen("C:\\Users\\user\\Documents\\KCC\\Project - 1st semester\\student management system\\Data_Student.dat","r+b");
-	if(fp==NULL)
-	{
-		fp=fopen("C:\\Users\\user\\Documents\\KCC\\Project - 1st semester\\student management system\\Data_Student.dat","w+b");
-		if(fp==NULL)
-		printf("file cannot not be created");
-		exit(0);
-	}
+//	fp=fopen("C:\\Users\\user\\Documents\\KCC\\Project - 1st semester\\student management system\\Data_Student.dat","r+b");
+//	if(fp==NULL)
+//	{
+//		fp=fopen("C:\\Users\\user\\Documents\\KCC\\Project - 1st semester\\student management system\\Data_Student.dat","w+b");
+//		if(fp==NULL)
+//		printf("file cannot not be created");
+//		exit(0);
+//	}
+	fp=fopen("Data_Student.dat","a+b");
 	char cont;
 	do
 	{
@@ -427,11 +427,58 @@ void examinfosedit()
 
 void studentinfo()
 {
+	/*
+		add the following items
+		search by class 
+		search by field
+		serach by semester
+		search by name
+		search by id 
+		
+		or view all the students
+	*/
 	printf("hello world\n");
 }
 
 void teacherinfo(){
-	printf("hello world");
+	
+	/*
+		add the following items
+		search by class 
+		search by field
+		serach by semester
+		search by name
+		search by id 
+		
+		or view all the students
+	*/
+	
+	char a[200];
+	FILE *fp;
+		
+	int i=0,j;
+	system("cls");
+	gotoxy(1,1);
+	printf("*********************************Teacher List*****************************");
+	gotoxy(2,2);
+	printf(" NAME\t\tLNAME\t\tID\t\tFIELD");
+	j=4;
+	fp=fopen("Data_Teacher.dat","rb");
+	while(fread(&aa,sizeof(aa),1,fp)==1)
+	{
+		/* 		scanf("%s%s%d%s",aa.name,aa.lname,&aa.id,aa.fields); */
+		gotoxy(3,j);
+		printf("%s",aa.name);
+		gotoxy(16,j);
+		printf("%s",aa.lname);
+		gotoxy(33,j);
+		printf("%d",aa.id);
+		gotoxy(49,j);
+		printf("%s",aa.fields);
+		printf("\n\n");
+		j++;
+	}
+	fclose(fp);
 }
 
 void routineinfo(){
@@ -540,7 +587,6 @@ void examinfos(){
 }
 
 
-
 void edit() 
 	{
 
@@ -581,7 +627,11 @@ void edit()
 	}
 
 	}
+
+
 void result(){
+	/* i guess something similar to the notice board or something that will publish 
+		the result of the whole of semester students and so on*/
 	printf("hello world");
 }
 
