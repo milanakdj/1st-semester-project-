@@ -15,7 +15,6 @@
 
 bool sixp_flag = false;
 bool isHoliday = false;
-bool editFlag = false;
 char firp[40] = "MATHS", secp[40] = "C PROGRAMMING", thp[40] = "BREAK", foup[40] = "COMPUTER FUNDAMENTALS", fifp[40] = "MODERN BUSINESS PRACTICE", sixp[40] = "NONE"; //DECLARATION FOR NORMAL PERIODS OF CURRENT DAY
 char strEdit[40];
 
@@ -53,6 +52,7 @@ void studentinfoedit();
 void teacherinfoedit();
 void routineedit();
 void examinfosedit();
+void resultedit();
 
 
 void routineedit_comp();
@@ -96,6 +96,7 @@ struct std{
 	char lname[40];
 	char fields[40];
 	int semester;
+	float gpa;
 }a;
 
 
@@ -201,12 +202,12 @@ void routineedit_comp()
 }
 
 void mainroutineedit(){
-	editFlag = true;
 	routineinfo();
 	int n;
+	char ch;
 	flag_check:
 	do{
-		printf("\nWhich Period would you like to change: ");
+		printf("Which Period would you like to change: ");
 		scanf("%d",&n);
 	}while(n>6||n<1);
 	if(n==6 & !sixp_flag)
@@ -243,10 +244,10 @@ void mainroutineedit(){
 	system("cls");
 	routineinfo();
 	printf("Would you like to edit more?(Y|N): ");
-	if(getch()=='y'||getch()=='Y')
+	fflush(stdin);
+	ch = getchar();
+	if(toupper(ch) == 'Y')
 	goto flag_check;
-	else
-	mainmenu();
 }
 
 void teacherinfoedit()
@@ -1043,15 +1044,7 @@ void routineinfo(){
 		}else{
 			printf("|-----------------------------------------------------------------------------------------------------------------|\n");	
 		}
-	}
-	if(!editFlag){
-		gotoxy(10,15);
-		printf("Goto Main Menu?(Y/N)");
-		if(getch()=='y' || getch()=='Y')
-			mainmenu();
-		else
-			exit(0);	
-	}
+	}	
 }
 
 
@@ -1104,8 +1097,11 @@ void edit()
 
 	gotoxy(20,11);
 	printf("\xDB\xDB\xDB\xDB\xB2 4. Exam ");
-
+	
 	gotoxy(20,13);
+	printf("\xDB\xDB\xDB\xDB\xB2 5. Result ");
+
+	gotoxy(20,16);
 	printf("Enter your choice:");
 
 	switch(getch())
@@ -1122,16 +1118,152 @@ void edit()
 		case '4':
 			examinfosedit();
 			break;
+		case '5':
+			resultedit();
+			break;
 	
 	}
 
 	}
 
 
+void resultedit()
+{
+	struct std b;
+	system("cls");
+	int d=0,c=0;
+	float gg;
+	printf("*****************************Search Students*********************************");
+	gotoxy(20,6);
+	printf("\xDB\xDB\xDB\xB2 1. Search By ID");
+	gotoxy(20,8);
+	scanf("%d",&d);
+	FILE *fp,*fp1;
+	fp=fopen("Data_Student.dat","rb");
+	fp1=fopen("Data_Student_Result.dat","a+b");
+	rewind(fp1);
+	long l;
+	while(fread(&a,sizeof(a),1,fp)==1)
+	{
+		printf("this is entering the while loop atleast\n");
+		if(d==a.id)
+		{
+//			l=sizeof(a);
+//			if(fseek(fp,-l,1)==0){
+			printf("enter the gpa for the student\n");
+			fflush(stdin);
+			b=a;
+			scanf("%f",&b.gpa);
+			
+//			printf("this is the value of the result : %f\n",a.gpa);
+			if(fwrite(&b,sizeof(b),1,fp1)==1)
+			printf("result sucessfully update!!!\n");
+			else
+			printf("error");
+			c++;
+			break;
+			
+			
+		}
+		
+	}
+	if(c==0)
+		{
+			printf("no such record found\n");
+		}
+	fclose(fp);
+	fclose(fp1);
+	gotoxy(20,17);
+	printf("Edit another?(Y/N)");
+	if(getch()=='y' || getch()=='Y')
+	resultedit();
+	else
+	mainmenu();
+	
+}
+
 void result(){
 	/* i guess something similar to the notice board or something that will publish 
 		the result of the whole of semester students and so on*/
-	printf("hello world");
+//	printf("hello world");
+
+//	int i=0,j;
+//	system("cls");
+//	gotoxy(1,1);
+//	printf("*********************************Student List*****************************");
+//	gotoxy(2,2);
+//	printf(" NAME\t\tLNAME\t\tID\t\tFIELD\t\tSEMESTER\t\tGPA");
+//	j=4;
+//	FILE *fp;
+//	fp=fopen("Data_Student.dat","a+b");
+//	rewind(fp);
+//	while(fread(&a,sizeof(a),1,fp)==1)
+//		{
+//		
+//		gotoxy(3,j);
+//		printf("%s",a.name);
+//		gotoxy(16,j);
+//		printf("%s",a.lname);
+//		gotoxy(33,j);
+//		printf("%d",a.id);
+//		gotoxy(49,j);
+//		printf("%s",a.fields);
+//		gotoxy(62,j);
+//		printf("%d",a.semester);
+//		gotoxy(79,j);
+//		printf("%f",a.gpa);
+//		printf("\n\n");
+//		j++;
+//		j++;
+//	}
+//	fclose(fp);
+//	
+//	gotoxy(20,j+15);
+//	printf("Goto Main Menu?(Y/N)");
+//	if(getch()=='y' || getch()=='Y')
+//	mainmenu();
+//	else
+//	exit(0);
+
+	
+		FILE *fp;
+		fp=fopen("Data_Student_Result.dat","rb");
+		int ss;
+		system("cls");
+		int d=0,j=5;
+		int x=20;
+	
+		
+		while(fread(&a,sizeof(a),1,fp)==1)
+			{
+
+			gotoxy(1,1);
+			printf("*********************************Whole Student List*****************************\n");
+			gotoxy(1,2);
+			printf(" NAME\t\tLNAME\t\tID\t\tFIELD\t\tSEMESTER\t\tGPA");
+			gotoxy(3,j);
+			printf("%s",a.name);
+			gotoxy(16,j);
+			printf("%s",a.lname);
+			gotoxy(33,j);
+			printf("%d",a.id);
+			gotoxy(49,j);
+			printf("%s",a.fields);
+			gotoxy(64,j);
+			printf("%d",a.semester);
+			gotoxy(79,j);
+			printf("%f",a.gpa);
+			j++;
+			j++;
+			d++;
+			}
+	fclose(fp);
+	gotoxy(20,j+15);
+	printf("Goto Main Menu?(Y/N)");
+	if(getch()=='y' || getch()=='Y')
+	mainmenu();
+	else
+	exit(0);
 }
 
 
