@@ -206,7 +206,7 @@ void mainroutineedit(){
 	int n;
 	flag_check:
 	do{
-		printf("Which Period would you like to change: ");
+		printf("\nWhich Period would you like to change: ");
 		scanf("%d",&n);
 	}while(n>6||n<1);
 	if(n==6 & !sixp_flag)
@@ -242,7 +242,7 @@ void mainroutineedit(){
 	}
 	system("cls");
 	routineinfo();
-	printf("\nWould you like to edit more?(Y|N): ");
+	printf("Would you like to edit more?(Y|N): ");
 	if(getch()=='y'||getch()=='Y')
 	goto flag_check;
 	else
