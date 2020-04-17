@@ -15,6 +15,7 @@
 
 bool sixp_flag = false;
 bool isHoliday = false;
+bool editFlag = false;
 char firp[40] = "MATHS", secp[40] = "C PROGRAMMING", thp[40] = "BREAK", foup[40] = "COMPUTER FUNDAMENTALS", fifp[40] = "MODERN BUSINESS PRACTICE", sixp[40] = "NONE"; //DECLARATION FOR NORMAL PERIODS OF CURRENT DAY
 char strEdit[40];
 
@@ -51,6 +52,7 @@ void mainroutineedit();
 void studentinfoedit();
 void teacherinfoedit();
 void routineedit();
+void examinfosedit();
 
 
 void routineedit_comp();
@@ -199,9 +201,9 @@ void routineedit_comp()
 }
 
 void mainroutineedit(){
+	editFlag = true;
 	routineinfo();
 	int n;
-	char ch;
 	flag_check:
 	do{
 		printf("Which Period would you like to change: ");
@@ -241,30 +243,29 @@ void mainroutineedit(){
 	system("cls");
 	routineinfo();
 	printf("Would you like to edit more?(Y|N): ");
-	fflush(stdin);
-	ch = getchar();
-	if(toupper(ch) == 'Y')
+	if(getch()=='y'||getch()=='Y')
 	goto flag_check;
+	else
+	mainmenu();
 }
 
 void teacherinfoedit()
 {
 	system("cls");
 	FILE *fp;
-	fp=fopen("C:\\Users\\user\\Documents\\KCC\\Project - 1st semester\\student management system\\Data_Teacher.dat","r+b");
-	if(fp==NULL)
-	{
-		fp=fopen("C:\\Users\\user\\Documents\\KCC\\Project - 1st semester\\student management system\\Data_Teacher.dat","w+b");
-		if(fp==NULL)
-		printf("file cannot not be created");
-		exit(0);
-	}
+	fp=fopen("Data_Teacher.dat","a+b");
+//	if(fp==NULL)
+//	{
+//		fp=fopen("Data_Teacher.dat","w+b");
+//		if(fp==NULL)
+//		printf("file cannot not be created");
+//		exit(0);
+//	}
 	char cont;
 	do
 	{
 		printf("enter student's first name, last name, id, field\n");
 		scanf("%s%s%d%s",aa.name,aa.lname,&aa.id,aa.fields);
-		fwrite(&aa,sizeof(struct teach),1,fp);
 		if(fwrite(&aa,sizeof(struct teach),1,fp)==1)
 		printf("record has been sucessfully added\n");
 		printf("do you want to enter more datas(Y\\N)?\n");
@@ -284,6 +285,7 @@ void teacherinfoedit()
 	}
 	
 }
+
 void studentinfoedit()
 {
 	/*
@@ -298,22 +300,23 @@ void studentinfoedit()
 	fclose(fp);
 		
 	*/
+	
+//	fp=fopen("C:\\Users\\user\\Documents\\KCC\\Project - 1st semester\\student management system\\Data_Student.dat","r+b");
+//	if(fp==NULL)
+//	{
+//		fp=fopen("C:\\Users\\user\\Documents\\KCC\\Project - 1st semester\\student management system\\Data_Student.dat","w+b");
+//		if(fp==NULL)
+//		printf("file cannot not be created");
+//		exit(0);
+//	}
 	system("cls");
 	FILE *fp;
-	fp=fopen("C:\\Users\\user\\Documents\\KCC\\Project - 1st semester\\student management system\\Data_Student.dat","r+b");
-	if(fp==NULL)
-	{
-		fp=fopen("C:\\Users\\user\\Documents\\KCC\\Project - 1st semester\\student management system\\Data_Student.dat","w+b");
-		if(fp==NULL)
-		printf("file cannot not be created");
-		exit(0);
-	}
+	fp=fopen("Data_Student.dat","a+b");
 	char cont;
 	do
 	{
 		printf("enter student's first name, last name, semester, id, field\n");
 		scanf("%s%s%d%d%s",a.name,a.lname,&a.semester,&a.id,a.fields);
-		fwrite(&a,sizeof(struct std),1,fp);
 		if(fwrite(&a,sizeof(struct std),1,fp)==1)
 		printf("record has been sucessfully added\n");
 		printf("do you want to enter more datas(Y\\N)?\n");
@@ -389,14 +392,584 @@ void routineedit()
 }
 
 
+void examinfosedit()
+{
+	
+	FILE *fp;
+	char notice[200];
+	fp=fopen("Notice.dat","a+b");
+	printf("\nEnter what notice you would like to have on the notice board !!!!\n");
+	fflush(stdin);
+	gets(notice);
+	fwrite(&notice,sizeof(notice),1,fp);
+	fclose(fp);
+	char a,cont;
+	printf("do you want to enter again? (Y/N)");
+	fflush(stdin);
+	a=getchar();
+	if(a=='y' || a=='Y')
+	examinfosedit();
+	
+	else
+	{
+		printf("enter m or M to go back to main menu\n");
+		printf("_____________________________________\n");
+		fflush(stdin);
+		scanf("%c",&cont);
+		printf("%c",cont);
+		if(cont=='M' || cont =='m')
+		{
+				mainmenu();
+		}
+		else
+			exit(0);
+	}
+}
+
 
 void studentinfo()
 {
-	printf("hello world\n");
+	/*
+		add the following items
+		search by field
+		serach by semester
+		search by name
+		search by id 
+		
+		or view all the students
+	*/
+	
+	system("cls");
+	int d=0;
+	printf("*****************************Search Students*********************************");
+	gotoxy(20,6);
+	printf("\xDB\xDB\xDB\xB2 1. Search By ID");
+	gotoxy(20,8);
+	printf("\xDB\xDB\xDB\xB2 2. Search By Name");
+	gotoxy(20,10);
+	printf("\xDB\xDB\xDB\xB2 3. Search By LName");
+	gotoxy(20,12);
+	printf("\xDB\xDB\xDB\xB2 4. Search By Field");
+	gotoxy(20,14);
+	printf("\xDB\xDB\xDB\xB2 5. Search By Semester");
+	gotoxy(20,16);
+	printf("\xDB\xDB\xDB\xB2 6. View all");
+	gotoxy( 15,24);
+	printf("Enter Your Choice");
+	fp=fopen("Data_Student.dat","rb+"); //open file for reading propose
+	rewind(fp);   //move pointer at the begining of file
+	switch(getch())
+	{
+	case '1':
+	{
+	int d=0,j=5;
+	system("cls");
+	gotoxy(25,4);
+	printf("****Search Student By Id****");
+	gotoxy(20,5);
+	printf("Enter the Student id:");
+	scanf("%d",&d);
+	gotoxy(20,7);
+	printf("Searching........");
+	while(fread(&a,sizeof(a),1,fp)==1)
+	{
+	if(a.id==d)
+	{
+		Sleep(2);
+		system("cls");
+		gotoxy(1,1);
+		printf("*********************************Student List*****************************\n");
+		gotoxy(2,2);
+		printf(" NAME\t\tLNAME\t\tID\t\tFIELD\t\tSEMESTER");
+	
+		gotoxy(3,j);
+		printf("%s",a.name);
+		gotoxy(16,j);
+		printf("%s",a.lname);
+		gotoxy(33,j);
+		printf("%d",a.id);
+		gotoxy(49,j);
+		printf("%s",a.fields);
+		gotoxy(64,j);
+		printf("%d",a.semester);
+		j++;
+		j++;
+		d++;
+	}
+	
+	}
+	
+	if(d==0)
+	{
+	gotoxy(20,8);
+	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
+	gotoxy(20,9);printf("\xB2");  gotoxy(38,9);printf("\xB2");
+	gotoxy(20,10);
+	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
+	gotoxy(22,9);printf("\aNo Record Found");
+	}
+	gotoxy(20,17);
+	printf("Try another search?(Y/N)");
+	if(getch()=='y' || getch()=='Y')
+	studentinfo();
+	else
+	mainmenu();
+	break;
+	
+	
+//	if(findstd!='t')  //checks whether conditiion enters inside loop or not
+//	{
+//	gotoxy(20,8);
+//	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
+//	gotoxy(20,9);printf("\xB2");  gotoxy(38,9);printf("\xB2");
+//	gotoxy(20,10);
+//	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
+//	gotoxy(22,9);printf("\aNo Record Found");
+//	}
+//	gotoxy(20,17);
+//	printf("Try another search?(Y/N)");
+//	if(getch()=='y')
+//	studentinfo();
+//	else
+//	mainmenu();
+//	break;
+	}
+	
+	
+	
+	case '2':
+	{
+	char s[15];
+	system("cls");
+	gotoxy(25,4);
+	printf("****Search Student By Name****");
+	gotoxy(20,5);
+	printf("Enter Student Name:");
+	scanf("%s",s);
+	int d=0,j=5;
+	while(fread(&a,sizeof(a),1,fp)==1)
+	{
+	if(strcmp(a.name,(s))==0) //checks whether a.name is equal to s or not
+	{
+//	gotoxy(20,7);
+//	printf("The Student is available");
+//	gotoxy(20,8);
+//	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
+//	gotoxy(20,9);
+//	printf("\xB2 ID:%d",a.id);gotoxy(47,9);printf("\xB2");
+//	gotoxy(20,10);
+//	printf("\xB2 Name:%s",a.name);gotoxy(47,10);printf("\xB2");
+//	gotoxy(20,11);
+//	printf("\xB2 LName:%s ",a.lname);gotoxy(47,11);printf("\xB2");
+//	gotoxy(20,12);
+//	printf("\xB2 Field:%s ",a.fields);gotoxy(47,12);printf("\xB2"); gotoxy(47,11);printf("\xB2");
+//	gotoxy(20,13);
+//	printf("\xB2 Semester:%d ",a.semester);gotoxy(47,12);printf("\xB2"); gotoxy(47,11);printf("\xB2");
+//	gotoxy(20,14);
+//	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
+//	d++;
+
+		system("cls");
+		gotoxy(1,1);
+		printf("*********************************Student List*****************************\n");
+		gotoxy(2,2);
+		printf(" NAME\t\tLNAME\t\tID\t\tFIELD\t\tSEMESTER");
+	
+		gotoxy(3,j);
+		printf("%s",a.name);
+		gotoxy(16,j);
+		printf("%s",a.lname);
+		gotoxy(33,j);
+		printf("%d",a.id);
+		gotoxy(49,j);
+		printf("%s",a.fields);
+		gotoxy(64,j);
+		printf("%d",a.semester);
+		j++;
+		j++;
+		d++;
+	}
+	
+	}
+	if(d==0)
+	{
+	gotoxy(20,8);
+	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
+	gotoxy(20,9);printf("\xB2");  gotoxy(38,9);printf("\xB2");
+	gotoxy(20,10);
+	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
+	gotoxy(22,9);printf("\aNo Record Found");
+	}
+	gotoxy(20,17);
+	printf("Try another search?(Y/N)");
+	if(getch()=='y' || getch()=='Y')
+	studentinfo();
+	else
+	mainmenu();
+	break;
+	}
+	
+	case '3':
+	{
+	char s[15];
+	system("cls");
+	gotoxy(25,4);
+	printf("****Search Student By LName****");
+	gotoxy(20,5);
+	printf("Enter Student LName:");
+	scanf("%s",s);
+	int d=0,j=5;
+	while(fread(&a,sizeof(a),1,fp)==1)
+	{
+	if(strcmp(a.lname,(s))==0) //checks whether a.name is equal to s or not
+	{
+//	gotoxy(20,7);
+//	printf("The Student is available");
+//	gotoxy(20,8);
+//	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
+//	gotoxy(20,9);
+//	printf("\xB2 ID:%d",a.id);gotoxy(47,9);printf("\xB2");
+//	gotoxy(20,10);
+//	printf("\xB2 Name:%s",a.name);gotoxy(47,10);printf("\xB2");
+//	gotoxy(20,11);
+//	printf("\xB2 LName:%s ",a.lname);gotoxy(47,11);printf("\xB2");
+//	gotoxy(20,12);
+//	printf("\xB2 Field:%s ",a.fields);gotoxy(47,12);printf("\xB2"); gotoxy(47,11);printf("\xB2");
+//	gotoxy(20,13);
+//	printf("\xB2 Semester:%d ",a.semester);gotoxy(47,12);printf("\xB2"); gotoxy(47,11);printf("\xB2");
+//	gotoxy(20,14);
+//	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
+
+		system("cls");
+		gotoxy(1,1);
+		printf("*********************************Student List*****************************\n");
+		gotoxy(2,2);
+		printf(" NAME\t\tLNAME\t\tID\t\tFIELD\t\tSEMESTER");
+	
+		gotoxy(3,j);
+		printf("%s",a.name);
+		gotoxy(16,j);
+		printf("%s",a.lname);
+		gotoxy(33,j);
+		printf("%d",a.id);
+		gotoxy(49,j);
+		printf("%s",a.fields);
+		gotoxy(64,j);
+		printf("%d",a.semester);
+		j++;
+		j++;
+		d++;
+	}
+	
+	}
+	if(d==0)
+	{
+	gotoxy(20,8);
+	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
+	gotoxy(20,9);printf("\xB2");  gotoxy(38,9);printf("\xB2");
+	gotoxy(20,10);
+	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
+	gotoxy(22,9);printf("\aNo Record Found");
+	}
+	gotoxy(20,17);
+	printf("Try another search?(Y/N)");
+	if(getch()=='y' || getch()=='Y')
+	studentinfo();
+	else
+	mainmenu();
+	break;
+	}
+	
+	case '4':
+	{
+	char s[15];
+	system("cls");
+	gotoxy(25,4);
+	printf("****Search Student By Field****");
+	gotoxy(20,5);
+	printf("Enter Student Field:");
+	scanf("%s",s);
+	int d=0,j=5;
+	while(fread(&a,sizeof(a),1,fp)==1)
+	{
+	if(strcmp(a.fields,(s))==0) //checks whether a.name is equal to s or not
+	{
+//	gotoxy(20,7);
+//	printf("The Student is available");
+//	gotoxy(20,8);
+//	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
+//	gotoxy(20,9);
+//	printf("\xB2 ID:%d",a.id);gotoxy(47,9);printf("\xB2");
+//	gotoxy(20,10);
+//	printf("\xB2 Name:%s",a.name);gotoxy(47,10);printf("\xB2");
+//	gotoxy(20,11);
+//	printf("\xB2 LName:%s ",a.lname);gotoxy(47,11);printf("\xB2");
+//	gotoxy(20,12);
+//	printf("\xB2 Field:%s ",a.fields);gotoxy(47,12);printf("\xB2"); gotoxy(47,11);printf("\xB2");
+//	gotoxy(20,13);
+//	printf("\xB2 Semester:%d ",a.semester);gotoxy(47,12);printf("\xB2"); gotoxy(47,11);printf("\xB2");
+//	gotoxy(20,14);
+//	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
+//	d++;
+
+		system("cls");
+		gotoxy(1,1);
+		printf("*********************************Student List*****************************\n");
+		gotoxy(2,2);
+		printf(" NAME\t\tLNAME\t\tID\t\tFIELD\t\tSEMESTER");
+	
+		gotoxy(3,j);
+		printf("%s",a.name);
+		gotoxy(16,j);
+		printf("%s",a.lname);
+		gotoxy(33,j);
+		printf("%d",a.id);
+		gotoxy(49,j);
+		printf("%s",a.fields);
+		gotoxy(64,j);
+		printf("%d",a.semester);
+		j++;
+		j++;
+		d++;
+	}
+	
+	}
+	if(d==0)
+	{
+	gotoxy(20,8);
+	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
+	gotoxy(20,9);printf("\xB2");  gotoxy(38,9);printf("\xB2");
+	gotoxy(20,10);
+	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
+	gotoxy(22,9);printf("\aNo Record Found");
+	}
+	gotoxy(20,17);
+	printf("Try another search?(Y/N)");
+	if(getch()=='y' || getch()=='Y')
+	studentinfo();
+	else
+	mainmenu();
+	break;
+	}
+	
+	case '5':
+	{
+	char s[15];
+	int ss,j;
+	system("cls");
+	gotoxy(25,4);
+	printf("****Search Student By Semester****");
+	gotoxy(20,5);
+	printf("Enter Student Semester:");
+	scanf("%d",&ss);
+	int d=0;
+	j=4;
+	system("cls");
+	while(fread(&a,sizeof(a),1,fp)==1)
+	{
+	if(ss==a.semester) //checks whether a.name is equal to s or not
+		{
+//		gotoxy(20,7);
+//	printf("The Students are available\n");
+//	gotoxy(20,8);
+//	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
+//	gotoxy(20,9);
+//	printf("\xB2 ID:%d\t",a.id);printf("\xB2 Name:%s\t",a.name);gotoxy(47,9);printf("\xB2 LName:%s\t",a.lname);printf("\xB2 Field:%s\t",a.fields);printf("\xB2 Semester:%d\t",a.semester);printf("\xB2");
+//	printf("\n");
+//	gotoxy(20,10);
+//	printf("\xB2 Name:%s",a.name);gotoxy(47,10);printf("\xB2");
+//	gotoxy(20,11);
+//	printf("\xB2 LName:%s ",a.lname);gotoxy(47,11);printf("\xB2");
+//	gotoxy(20,12);
+//	printf("\xB2 Field:%s ",a.fields);gotoxy(47,12);printf("\xB2"); gotoxy(47,11);printf("\xB2");
+//	gotoxy(20,13);
+//	printf("\xB2 Semester:%d ",a.semester);gotoxy(47,12);printf("\xB2"); gotoxy(47,11);printf("\xB2");
+//	gotoxy(20,14);
+//	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
+		gotoxy(1,1);
+		printf("*********************************Student List*****************************\n");
+		gotoxy(2,2);
+		printf(" NAME\t\tLNAME\t\tID\t\tFIELD\t\tSEMESTER");
+	
+		gotoxy(3,j);
+		printf("%s",a.name);
+		gotoxy(16,j);
+		printf("%s",a.lname);
+		gotoxy(33,j);
+		printf("%d",a.id);
+		gotoxy(49,j);
+		printf("%s",a.fields);
+		gotoxy(64,j);
+		printf("%d",a.semester);
+		j++;
+		j++;
+		d++;
+		}
+	
+	}
+	
+	if(d>0)
+	{
+		printf("\n\n");
+		printf(" \xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
+
+	}
+	if(d==0)
+	{
+	gotoxy(20,8);
+	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
+	gotoxy(20,9);printf("\xB2");  gotoxy(38,9);printf("\xB2");
+	gotoxy(20,10);
+	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
+	gotoxy(22,9);printf("\aNo Record Found");
+	}
+	gotoxy(20,17);
+	printf("Try another search?(Y/N)");
+	if(getch()=='y' || getch()=='Y')
+	studentinfo();
+	else
+	mainmenu();
+	break;
+	}
+	
+	case '6':
+	{
+		int ss;
+		system("cls");
+//	gotoxy(25,4);
+//	printf("****Whole student list****");
+		int d=0,j=5;
+		int x=20;
+	
+		
+		while(fread(&a,sizeof(a),1,fp)==1)
+			{
+//		gotoxy(x,7);
+//		printf("The Students available are: ");
+//		gotoxy(x,8);
+//		printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
+//		gotoxy(x,9);
+//		printf("\xB2 ID:%d",a.id);gotoxy(47,9);printf("\xB2");
+//		gotoxy(x,10);
+//		printf("\xB2 Name:%s",a.name);gotoxy(47,10);printf("\xB2");
+//		gotoxy(x,11);
+//		printf("\xB2 LName:%s ",a.lname);gotoxy(47,11);printf("\xB2");
+//		gotoxy(x,12);
+//		printf("\xB2 Field:%s ",a.fields);gotoxy(47,12);printf("\xB2"); gotoxy(47,11);printf("\xB2");
+//		gotoxy(x,13);
+//		printf("\xB2 Semester:%d ",a.semester);gotoxy(47,12);printf("\xB2"); gotoxy(47,11);printf("\xB2");
+//		
+//		Sleep(300);
+//		x=x+35;
+//		d++;
+
+			gotoxy(1,1);
+			printf("*********************************Whole Student List*****************************\n");
+			gotoxy(1,2);
+			printf(" NAME\t\tLNAME\t\tID\t\tFIELD\t\tSEMESTER");
+			gotoxy(3,j);
+			printf("%s",a.name);
+			gotoxy(16,j);
+			printf("%s",a.lname);
+			gotoxy(33,j);
+			printf("%d",a.id);
+			gotoxy(49,j);
+			printf("%s",a.fields);
+			gotoxy(64,j);
+			printf("%d",a.semester);
+			j++;
+			j++;
+			d++;
+			}
+	
+		if(d>0)
+		{
+			printf("\n\n");
+			printf(" \xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
+
+		}
+		
+		if(d==0)
+		{
+		gotoxy(20,8);
+		printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
+		gotoxy(20,9);printf("\xB2");  gotoxy(38,9);printf("\xB2");
+		gotoxy(20,10);
+		printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
+		gotoxy(22,9);printf("\aNo Record Found");
+		}
+		gotoxy(20,17);
+		printf("Try another search?(Y/N)");
+		if(getch()=='y' || getch()=='Y')
+			studentinfo();
+		else
+			mainmenu();
+		break;
+		
+	}
+//	printf("\n");
+//	while(d>=0)
+//	{
+//		gotoxy(d*10+10,15);
+//		printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
+//		d--;
+//		Sleep(300);
+//	}
+
+	
+	default :
+	getch();
+	studentinfo();
+	}
+	fclose(fp);
 }
 
 void teacherinfo(){
-	printf("hello world");
+	
+	/*
+		add the following items
+		search by class 
+		search by field
+		serach by semester
+		search by name
+		search by id 
+		
+		or view all the teacher
+	*/
+	
+	char a[200];
+	FILE *fp;
+		
+	int i=0,j;
+	system("cls");
+	gotoxy(1,1);
+	printf("*********************************Teacher List*****************************");
+	gotoxy(2,2);
+	printf(" NAME\t\tLNAME\t\tID\t\tFIELD");
+	j=4;
+	fp=fopen("Data_Teacher.dat","rb");
+	while(fread(&aa,sizeof(aa),1,fp)==1)
+	{
+		/* 		scanf("%s%s%d%s",aa.name,aa.lname,&aa.id,aa.fields); */
+		gotoxy(3,j);
+		printf("%s",aa.name);
+		gotoxy(16,j);
+		printf("%s",aa.lname);
+		gotoxy(33,j);
+		printf("%d",aa.id);
+		gotoxy(49,j);
+		printf("%s",aa.fields);
+		printf("\n\n");
+		j++;
+	}
+	fclose(fp);
+	
+	gotoxy(20,j+15);
+	printf("Goto Main Menu?(Y/N)");
+	if(getch()=='y' || getch()=='Y')
+	mainmenu();
+	else
+	exit(0);
 }
 
 void routineinfo(){
@@ -470,11 +1043,49 @@ void routineinfo(){
 		}else{
 			printf("|-----------------------------------------------------------------------------------------------------------------|\n");	
 		}
-	}	
+	}
+	if(!editFlag){
+		gotoxy(10,15);
+		printf("Goto Main Menu?(Y/N)");
+		if(getch()=='y' || getch()=='Y')
+			mainmenu();
+		else
+			exit(0);	
+	}
 }
+
+
 void examinfos(){
-	printf("hello world");
+	/*
+		this show a list that basically updates the news and the latest update is kept at the top and this announcemnests are stored
+		at the top i.e the newest is at the top 
+	*/
+	system("cls");
+	char a[200];
+//	FILE *fp;
+//	fp=fopen("Notice.dat","rb");
+//	rewind(fp);
+//	while(fread(&a,sizeof(a),1,fp)==1)
+//	{
+//		printf("%s\n",a);
+//	}
+//	fclose(fp);
+
+	FILE *fp;
+	fp=fopen("Notice.dat","rb");
+	fseek(fp,-200,2);
+	fread(&a,sizeof(a),1,fp);
+	do
+	{
+		printf("---------------------------------------------------\n");
+		printf("%s\n",a);
+		fseek(fp,-400,1);
+		printf("|||||||||||||||||||||||||||||||||||||||||||||||\n");
+	}while(fread(&a,sizeof(a),1,fp)==1);
+	fclose(fp);
 }
+
+
 void edit() 
 	{
 
@@ -509,13 +1120,17 @@ void edit()
 			routineedit();
 			break;
 		case '4':
-			examinfos();
+			examinfosedit();
 			break;
 	
 	}
 
 	}
+
+
 void result(){
+	/* i guess something similar to the notice board or something that will publish 
+		the result of the whole of semester students and so on*/
 	printf("hello world");
 }
 
