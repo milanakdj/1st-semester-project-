@@ -242,7 +242,7 @@ void mainroutineedit(){
 	}
 	system("cls");
 	routineinfo();
-	printf("Would you like to edit more?(Y|N): ");
+	printf("\nWould you like to edit more?(Y|N): ");
 	if(getch()=='y'||getch()=='Y')
 	goto flag_check;
 	else
@@ -1052,12 +1052,6 @@ void routineinfo(){
 		else
 			exit(0);	
 	}
-	gotoxy(10,15);
-	printf("Goto Main Menu?(Y/N)");
-	if(getch()=='y' || getch()=='Y')
-	mainmenu();
-	else
-	exit(0);
 }
 
 
