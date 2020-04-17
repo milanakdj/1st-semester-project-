@@ -15,6 +15,7 @@
 
 bool sixp_flag = false;
 bool isHoliday = false;
+bool editFlag = false;
 char firp[40] = "MATHS", secp[40] = "C PROGRAMMING", thp[40] = "BREAK", foup[40] = "COMPUTER FUNDAMENTALS", fifp[40] = "MODERN BUSINESS PRACTICE", sixp[40] = "NONE"; //DECLARATION FOR NORMAL PERIODS OF CURRENT DAY
 char strEdit[40];
 
@@ -200,9 +201,9 @@ void routineedit_comp()
 }
 
 void mainroutineedit(){
+	editFlag = true;
 	routineinfo();
 	int n;
-	char ch;
 	flag_check:
 	do{
 		printf("Which Period would you like to change: ");
@@ -242,10 +243,10 @@ void mainroutineedit(){
 	system("cls");
 	routineinfo();
 	printf("Would you like to edit more?(Y|N): ");
-	fflush(stdin);
-	ch = getchar();
-	if(toupper(ch) == 'Y')
+	if(getch()=='y'||getch()=='Y')
 	goto flag_check;
+	else
+	mainmenu();
 }
 
 void teacherinfoedit()
@@ -1042,7 +1043,21 @@ void routineinfo(){
 		}else{
 			printf("|-----------------------------------------------------------------------------------------------------------------|\n");	
 		}
-	}	
+	}
+	if(!editFlag){
+		gotoxy(10,15);
+		printf("Goto Main Menu?(Y/N)");
+		if(getch()=='y' || getch()=='Y')
+			mainmenu();
+		else
+			exit(0);	
+	}
+	gotoxy(10,15);
+	printf("Goto Main Menu?(Y/N)");
+	if(getch()=='y' || getch()=='Y')
+	mainmenu();
+	else
+	exit(0);
 }
 
 
