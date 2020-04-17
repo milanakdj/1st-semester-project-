@@ -1044,6 +1044,7 @@ void routineinfo(){
 			printf("|-----------------------------------------------------------------------------------------------------------------|\n");	
 		}
 	}
+<<<<<<< Updated upstream
 	if(!editFlag){
 		gotoxy(10,15);
 		printf("Goto Main Menu?(Y/N)");
@@ -1052,6 +1053,14 @@ void routineinfo(){
 		else
 			exit(0);	
 	}
+=======
+	gotoxy(10,15);
+	printf("Goto Main Menu?(Y/N)");
+	if(getch()=='y' || getch()=='Y')
+	mainmenu();
+	else
+	exit(0);
+>>>>>>> Stashed changes
 }
 
 
