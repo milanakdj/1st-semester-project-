@@ -203,7 +203,6 @@ void routineedit_comp()
 }
 
 void mainroutineedit(){
-	int editFlag = 1;
 	routineinfo();
 	int n;
 	flag_check:
