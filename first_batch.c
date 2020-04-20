@@ -53,7 +53,8 @@ void teacherinfoedit();
 void routineedit();
 void examinfosedit();
 void resultedit();
-
+void deleteteach();
+void deletestd();
 
 void routineedit_comp();
 
@@ -202,12 +203,12 @@ void routineedit_comp()
 }
 
 void mainroutineedit(){
+	int editFlag = 1;
 	routineinfo();
 	int n;
-	char ch;
 	flag_check:
 	do{
-		printf("Which Period would you like to change: ");
+		printf("\nWhich Period would you like to change: ");
 		scanf("%d",&n);
 	}while(n>6||n<1);
 	if(n==6 & !sixp_flag)
@@ -244,10 +245,10 @@ void mainroutineedit(){
 	system("cls");
 	routineinfo();
 	printf("Would you like to edit more?(Y|N): ");
-	fflush(stdin);
-	ch = getchar();
-	if(toupper(ch) == 'Y')
+	if(getch()=='y'||getch()=='Y')
 	goto flag_check;
+	else
+	mainmenu();
 }
 
 void teacherinfoedit()
@@ -397,7 +398,7 @@ void examinfosedit()
 {
 	
 	FILE *fp;
-	char notice[200];
+	char notice[500];
 	fp=fopen("Notice.dat","a+b");
 	printf("\nEnter what notice you would like to have on the notice board !!!!\n");
 	fflush(stdin);
@@ -426,7 +427,6 @@ void examinfosedit()
 			exit(0);
 	}
 }
-
 
 void studentinfo()
 {
@@ -899,7 +899,7 @@ void studentinfo()
 		printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
 		gotoxy(22,9);printf("\aNo Record Found");
 		}
-		gotoxy(20,17);
+		gotoxy(20,j+11);
 		printf("Try another search?(Y/N)");
 		if(getch()=='y' || getch()=='Y')
 			studentinfo();
@@ -1054,7 +1054,7 @@ void examinfos(){
 		at the top i.e the newest is at the top 
 	*/
 	system("cls");
-	char a[200];
+	char a[500];
 //	FILE *fp;
 //	fp=fopen("Notice.dat","rb");
 //	rewind(fp);
@@ -1066,18 +1066,134 @@ void examinfos(){
 
 	FILE *fp;
 	fp=fopen("Notice.dat","rb");
-	fseek(fp,-200,2);
-	fread(&a,sizeof(a),1,fp);
-	do
+	fseek(fp,-500,2);
+	while(fread(&a,sizeof(a),1,fp)==1)
 	{
 		printf("---------------------------------------------------\n");
 		printf("%s\n",a);
-		fseek(fp,-400,1);
+		fseek(fp,-1000,1);
+	
 		printf("|||||||||||||||||||||||||||||||||||||||||||||||\n");
-	}while(fread(&a,sizeof(a),1,fp)==1);
+		if(ftell(fp)%500!=0)
+		break;
+	}
+//
+//	while (fread(&a,sizeof(a),1,fp)==1)
+//	{
+//		printf("%s\n",a);
+//	}
 	fclose(fp);
+	
+	printf("\n\n\n");
+	printf("Goto Main Menu?(Y/N)");
+	if(getch()=='y' || getch()=='Y')
+	mainmenu();
+	else
+	exit(0);
 }
 
+void deleteteach()
+{
+
+	int d=0;
+	int id;
+	char yes='y';
+	char opt;
+	while(yes=='y')
+	{
+		system("cls");
+		printf("enter the id of the student that you want to delete\n");
+		scanf("%d",&id);
+		FILE *fp,*fp1;
+		fp=fopen("Data_Teacher.dat","r+b");
+		while(fread(&a,sizeof(a),1,fp)==1)
+		{
+			if(id==a.id)
+			{
+				d=1;
+				printf("the required entry is \n id :%d\n name : %s\n",a.id,a.name);
+				printf("do you want to delete this entry?(y/n)\n");
+				if(getch()=='y'||getch()=='Y')
+				{
+					fp1=fopen("temp.dat","w+b");
+					rewind(fp);
+					while(fread(&a,sizeof(a),1,fp)==1)
+					{
+						if(id!=a.id)
+							{
+								fwrite(&a,sizeof(a),1,fp1);
+							}
+					}
+				}
+			}
+		}
+		if(d==1)
+			printf("record sucessfully deleted \n");	
+		if(d==0)
+			printf("record not found \n");		
+		d==0;
+		fclose(fp1);
+		fclose(fp);
+		remove("Data_Teacher.dat");
+		rename("temp.dat","Data_Teacher.dat");
+		printf("do you want to delete another entry?(y/n)\n");
+		scanf("%c",&yes);
+		yes=tolower(yes);
+	}
+	mainmenu();
+}
+
+void deletestd()
+{
+
+	int d=0;
+	int id;
+	char yes='y';
+	char opt;
+	while(yes=='y')
+	{
+		system("cls");
+		printf("enter the id of the student that you want to delete\n");
+		scanf("%d",&id);
+		FILE *fp,*fp1;
+		fp=fopen("Data_Student.dat","r+b");
+		while(fread(&a,sizeof(a),1,fp)==1)
+		{
+			if(id==a.id)
+			{
+				d=1;
+				printf("the required entry is \n id :%d\n name : %s\n",a.id,a.name);
+				printf("do you want to delete this entry?(y/n)\n");
+				if(getch()=='y'||getch()=='Y')
+				{
+					fp1=fopen("temp.dat","w+b");
+					rewind(fp);
+					while(fread(&a,sizeof(a),1,fp)==1)
+					{
+						if(id!=a.id)
+							{
+								fwrite(&a,sizeof(a),1,fp1);
+							}
+					}
+				}
+			}
+		}
+		if(d==1)
+			printf("record sucessfully deleted \n");	
+		if(d==0)
+			printf("record not found \n");		
+		d==0;
+		fclose(fp1);
+		fclose(fp);
+		remove("Data_Student.dat");
+		rename("temp.dat","Data_Student.dat");
+		printf("do you want to delete another entry?(y/n)\n");
+		scanf("%c",&yes);
+		yes=tolower(yes);
+	}
+	getch();
+	mainmenu();
+}
 
 void edit() 
 	{
@@ -1100,8 +1216,16 @@ void edit()
 	
 	gotoxy(20,13);
 	printf("\xDB\xDB\xDB\xDB\xB2 5. Result ");
+	
+	gotoxy(20,15);
+	printf("\xDB\xDB\xDB\xDB\xB2 6. Delete Student ");
+	
+	gotoxy(20,17);
+	printf("\xDB\xDB\xDB\xDB\xB2 7. Delete Teacher ");
+	
+	
 
-	gotoxy(20,16);
+	gotoxy(20,22);
 	printf("Enter your choice:");
 
 	switch(getch())
@@ -1121,6 +1245,13 @@ void edit()
 		case '5':
 			resultedit();
 			break;
+		case '6':
+			deletestd();
+			break;
+		case '7':
+			deleteteach();
+			break;
+			
 	
 	}
 
@@ -1287,7 +1418,7 @@ void mainmenu()
 	printf("\xDB\xDB\xDB\xDB\xB2 3. Routine ");
 	gotoxy(20,11);
 	
-	printf("\xDB\xDB\xDB\xDB\xB2 4. Exam ");
+	printf("\xDB\xDB\xDB\xDB\xB2 4. Notice ");
 	gotoxy(20,13);
 	
 	printf("\xDB\xDB\xDB\xDB\xB2 5. Edit");
@@ -1329,30 +1460,34 @@ void mainmenu()
 		case '7':
 		{
 			system("cls");
-			gotoxy(65,3);
+			gotoxy(35,3);
 			
 			printf("Student Management System");
-			gotoxy(65,4);
+			gotoxy(35,4);
 			printf("Mini Project in C");
-			gotoxy(65,5);
+			gotoxy(35,5);
 			printf("This brought to you by");
-			gotoxy(65,7);
+			gotoxy(35,7);
 			printf("Milan Shrestha");
-			gotoxy(55,8);
+			gotoxy(35,9);
+			printf("Bishal Subedi");
+			gotoxy(35,10);
+			printf("Benzene Lama");
 			
+			gotoxy(20,12);
 			printf("******************************************");
-			gotoxy(55,10);
 			
+			gotoxy(20,13);
 			printf("*******************************************");
-			gotoxy(55,11);
 			
+			gotoxy(20,14);
 			printf("*******************************************");
-			gotoxy(55,13);
 			
+			gotoxy(20,17);
 			printf("********************************************");
-			gotoxy(65,17);
 			
-			printf("Exiting in 3 second...........>");
+			gotoxy(20,19);
+			printf("Exiting in 3 second...........>\n\n\n");
 			//flushall();
 			Sleep(3000);
 			exit(0);
@@ -1454,14 +1589,4 @@ void Password(void) //for password option
 		Password();
 	}
 }
-//
-//void issuerecord()  //display issued book's information
-//{
-//system("cls");
-////gotoxy(10,8);
-//printf("The Book has taken by Mr. %s",a.stname);
-////gotoxy(10,9);
-//printf("Issued Date:%d-%d-%d",a.issued.dd,a.issued.mm,a.issued.yy);
-////gotoxy(10,10);
-//printf("Returning Date:%d-%d-%d",a.duedate.dd,a.duedate.mm,a.duedate.yy);
-//}/}
+
