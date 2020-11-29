@@ -52,7 +52,7 @@ char password[20]={"fjfj"};
 
 
 
-struct meroDate // Struct for data format
+struct meroDate // Struct for date format
 {
 int mm,dd,yy;
 };
