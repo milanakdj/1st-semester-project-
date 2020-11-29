@@ -96,7 +96,7 @@ void welcomeMessage()
     printf("\n\t\t\t        =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
     printf("\n\t\t\t        =                 WELCOME                   =");
     printf("\n\t\t\t        =                   TO                      =");
-    printf("\n\t\t\t        =            Student Assistance             =");
+    printf("\n\t\t\t        =             STUDENT ASSISTANCE            =");
     printf("\n\t\t\t        =                 SYSTEM                    =");
     printf("\n\t\t\t        =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
     printf("\n\t\t\t  **-**-**-**-**-**-**-**-**-**-**-**-**-**-**-**-**-**-**\n");
