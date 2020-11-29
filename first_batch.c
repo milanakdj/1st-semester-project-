@@ -45,8 +45,6 @@ void resultedit(); // Edit the result of exiting student
 void deleteteach(); // for deleting existing teacher's record
 void deletestd(); // for deleting existing student's record
 
-void routineedit_comp();
-
 FILE *fp,*ft,*fs;
 
 int s;
@@ -113,60 +111,6 @@ Password();
 getch();
 return 0;
 
-}
-
-void routineedit_comp()
-{
-	system("cls");
-	gotoxy(20,3);
-	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2 SELECT THE ONE THAT YOU WANT TO EDIT \xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
-
-	gotoxy(20,5);
-	printf("\xDB\xDB\xDB\xDB\xB2 1. Semester 1   ");
-	
-	gotoxy(20,7);
-	printf("\xDB\xDB\xDB\xDB\xB2 2. Semester 2   ");
-
-	gotoxy(20,9);
-	printf("\xDB\xDB\xDB\xDB\xB2 3. Semester 3   ");
-
-	gotoxy(20,11);
-	printf("\xDB\xDB\xDB\xDB\xB2 4. Semester 4   ");
-	
-	gotoxy(20,13);
-	printf("\xDB\xDB\xDB\xDB\xB2 5. Semester 5   ");
-	
-	gotoxy(20,15);
-	printf("\xDB\xDB\xDB\xDB\xB2 6. Semester 6   ");
-	
-	gotoxy(20,17);
-	printf("\xDB\xDB\xDB\xDB\xB2 7. Semester 7   ");
-	
-	gotoxy(20,19);
-	printf("\xDB\xDB\xDB\xDB\xB2 8. Semester 8   ");
-	
-	
-	gotoxy(20,21);
-	printf("Enter your choice:");
-
-	switch(getch())
-	{
-		case '1':
-			mainroutineedit();
-			break;
-		case '2':
-			teacherinfoedit();
-			break;
-		case '3':
-			routineinfo();
-			break;
-		case '4':
-			examinfos();
-			break;
-	
-	}
-
-	
 }
 
 void mainroutineedit(){ // For Editing the routine of certain Period
