@@ -950,7 +950,7 @@ void edit() // For Editing the data of existing records
 	}
 
 
-void resultedit()
+void resultedit() // For editing the result of existing student
 {
 	struct std b;
 	system("cls");
@@ -1005,50 +1005,7 @@ void resultedit()
 	
 }
 
-void result(){
-	/* i guess something similar to the notice board or something that will publish 
-		the result of the whole of semester students and so on*/
-//	printf("hello world");
-
-//	int i=0,j;
-//	system("cls");
-//	gotoxy(1,1);
-//	printf("*********************************Student List*****************************");
-//	gotoxy(2,2);
-//	printf(" NAME\t\tLNAME\t\tID\t\tFIELD\t\tSEMESTER\t\tGPA");
-//	j=4;
-//	FILE *fp;
-//	fp=fopen("Data_Student.dat","a+b");
-//	rewind(fp);
-//	while(fread(&a,sizeof(a),1,fp)==1)
-//		{
-//		
-//		gotoxy(3,j);
-//		printf("%s",a.name);
-//		gotoxy(16,j);
-//		printf("%s",a.lname);
-//		gotoxy(33,j);
-//		printf("%d",a.id);
-//		gotoxy(49,j);
-//		printf("%s",a.fields);
-//		gotoxy(62,j);
-//		printf("%d",a.semester);
-//		gotoxy(79,j);
-//		printf("%f",a.gpa);
-//		printf("\n\n");
-//		j++;
-//		j++;
-//	}
-//	fclose(fp);
-//	
-//	gotoxy(20,j+15);
-//	printf("Goto Main Menu?(Y/N)");
-//	if(getch()=='y' || getch()=='Y')
-//	mainmenu();
-//	else
-//	exit(0);
-
-	
+void result(){ // For displaying the result of the students
 		FILE *fp;
 		fp=fopen("Data_Student_Result.dat","rb");
 		int ss;
