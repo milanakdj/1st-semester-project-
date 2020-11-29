@@ -57,7 +57,7 @@ struct meroDate // Struct for date format
 int mm,dd,yy;
 };
 
-struct std{ // initialize Structure for teacher's informations
+struct std{ // initialize Structure for Student's informations
 	int id;
 	char name[40];
 	char lname[40];
