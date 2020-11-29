@@ -2,14 +2,12 @@
 #include<string.h>
 #include<stdio.h>
 #include<conio.h>
-#include<stdlib.h>
 #include <stdlib.h>
 #include<string.h>                  //contains strcmp(),strcpy(),strlen(),etc
 #include<ctype.h>                   //contains toupper(), tolower(),etc
 #include<dos.h>                     //contains _dos_getdate
 #include<time.h>
 #include<stdbool.h>
-//#include<bios.h>
 
 #define RETURNTIME 15
 
@@ -28,70 +26,40 @@ SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 
 char categorie[][15]={"Computer","Electronics","Electrical","Civil","Mechnnical","Architecture"};
 void returnfunc(void);
-void mainmenu(void);
-void studentinfo(void);
-void teacherinfo(void);
-void examinfos();
-void classinfo(void);
-void routineinfo(void);
-void issuebooks(void);
-void viewbooks(void);
-void closeapplication(void);
-int  getdata();
-int  checkid(int);
-int t(void);
+void mainmenu(void); // Main Menu
+void studentinfo(void); // Getting data from existing student's records
+void teacherinfo(void); // Getting data from existing teacher's records
+void examinfos(); // Getting new notices
+void routineinfo(void); // Getting routine for today's day
+int t(void); // time function
 void headMessage(char *message);
 void welcomeMessage();
 void Password();
-void issuerecord();
-void loaderanim();
-void mainroutineedit();
 
 
-void studentinfoedit();
-void teacherinfoedit();
-void routineedit();
-void examinfosedit();
-void resultedit();
-void deleteteach();
-void deletestd();
+void mainroutineedit(); // edit function for routine
+void studentinfoedit(); // editing existing student's record
+void teacherinfoedit(); // editing existing teacher's record
+void examinfosedit(); // Adding new notices to the board
+void resultedit(); // Edit the result of exiting student
+void deleteteach(); // for deleting existing teacher's record
+void deletestd(); // for deleting existing student's record
 
 void routineedit_comp();
 
 FILE *fp,*ft,*fs;
 
-
-
 int s;
-//char studentinfo;
 char password[20]={"fjfj"};
 
 
 
-struct meroDate
+struct meroDate // Struct for data format
 {
 int mm,dd,yy;
 };
-//
-//struct books
-//{
-//int id;
-//char stname[20];
-//char name[20];
-//char Author[20];
-//int quantity;
-//float Price;
-//int count;
-//int rackno;
-//char *cat;
-//struct meroDate issued;
-//struct meroDate duedate;
-//};
-//
-//struct books a;
 
-
-struct std{
+struct std{ // initialize Structure for teacher's informations
 	int id;
 	char name[40];
 	char lname[40];
@@ -102,7 +70,7 @@ struct std{
 
 
 
-struct teach{
+struct teach{ // initialize Structure for teacher's informations
 	int id;
 	char name[40];
 	char lname[40];
@@ -114,7 +82,7 @@ void headMessage(char *message)
     system("cls");
     printf("\t\t\t###########################################################################");
     printf("\n\t\t\t############                                                   ############");
-    printf("\n\t\t\t############      Library management System Project in C       ############");
+    printf("\n\t\t\t############      Student Assistance System Project in C       ############");
     printf("\n\t\t\t############                                                   ############");
     printf("\n\t\t\t###########################################################################");
     printf("\n\t\t\t---------------------------------------------------------------------------\n");
@@ -130,8 +98,7 @@ void welcomeMessage()
     printf("\n\t\t\t        =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
     printf("\n\t\t\t        =                 WELCOME                   =");
     printf("\n\t\t\t        =                   TO                      =");
-    printf("\n\t\t\t        =                 LIBRARY                   =");
-    printf("\n\t\t\t        =               MANAGEMENT                  =");
+    printf("\n\t\t\t        =            Student Assistance             =");
     printf("\n\t\t\t        =                 SYSTEM                    =");
     printf("\n\t\t\t        =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
     printf("\n\t\t\t  **-**-**-**-**-**-**-**-**-**-**-**-**-**-**-**-**-**-**\n");
@@ -202,7 +169,7 @@ void routineedit_comp()
 	
 }
 
-void mainroutineedit(){
+void mainroutineedit(){ // For Editing the routine of certain Period
 	routineinfo();
 	int n;
 	flag_check:
@@ -250,22 +217,15 @@ void mainroutineedit(){
 	mainmenu();
 }
 
-void teacherinfoedit()
+void teacherinfoedit() // For editing the data of existing teacher's record
 {
 	system("cls");
 	FILE *fp;
 	fp=fopen("Data_Teacher.dat","a+b");
-//	if(fp==NULL)
-//	{
-//		fp=fopen("Data_Teacher.dat","w+b");
-//		if(fp==NULL)
-//		printf("file cannot not be created");
-//		exit(0);
-//	}
 	char cont;
 	do
 	{
-		printf("enter student's first name, last name, id, field\n");
+		printf("Enter teacher's first name, last name, id, field\n");
 		scanf("%s%s%d%s",aa.name,aa.lname,&aa.id,aa.fields);
 		if(fwrite(&aa,sizeof(struct teach),1,fp)==1)
 		printf("record has been sucessfully added\n");
@@ -287,29 +247,8 @@ void teacherinfoedit()
 	
 }
 
-void studentinfoedit()
+void studentinfoedit() // For editing the data of existing student's record
 {
-	/*
-	FILE *fp;
-	fp=fopen("this.dat",wb);
-	rewind(fp);
-	while((fread(&a,sizeof(a),1,fs)==1)// where a is a structure of the student
-	whlie(fp != EOF)
-	{
-		printf("%",structure.attribute);
-	}
-	fclose(fp);
-		
-	*/
-	
-//	fp=fopen("C:\\Users\\user\\Documents\\KCC\\Project - 1st semester\\student management system\\Data_Student.dat","r+b");
-//	if(fp==NULL)
-//	{
-//		fp=fopen("C:\\Users\\user\\Documents\\KCC\\Project - 1st semester\\student management system\\Data_Student.dat","w+b");
-//		if(fp==NULL)
-//		printf("file cannot not be created");
-//		exit(0);
-//	}
 	system("cls");
 	FILE *fp;
 	fp=fopen("Data_Student.dat","a+b");
@@ -335,65 +274,10 @@ void studentinfoedit()
 	{
 			mainmenu();
 	}
-	
-//
-//rewind(fp);
-//
-//while(fread(&a,sizeof(struct std),1,fp)==1)
-//	{
-//		printf("%s%s%d%d%s\n",a.name,a.lname,a.semester,a.id,a.fields);	
-//	}
-	
-}
-
-void routineedit()
-{
-	system("cls");
-	gotoxy(20,3);
-	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2 SELECT THE ONE THAT YOU WANT TO EDIT \xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
-
-	gotoxy(20,5);
-	printf("\xDB\xDB\xDB\xDB\xB2 1. %s   ",categorie[0]);
-	
-	gotoxy(20,7);
-	printf("\xDB\xDB\xDB\xDB\xB2 2. %s",categorie[1]);
-
-	gotoxy(20,9);
-	printf("\xDB\xDB\xDB\xDB\xB2 3. %s",categorie[2]);
-
-	gotoxy(20,11);
-	printf("\xDB\xDB\xDB\xDB\xB2 4. %s ",categorie[3]);
-	
-	gotoxy(20,13);
-	printf("\xDB\xDB\xDB\xDB\xB2 3. %s",categorie[4]);
-
-	gotoxy(20,15);
-	printf("\xDB\xDB\xDB\xDB\xB2 4. %s ",categorie[5]);
-
-	gotoxy(20,17);
-	printf("Enter your choice:");
-
-	switch(getch())
-	{
-		case '1':
-			routineedit_comp();
-			break;
-		case '2':
-			teacherinfoedit();
-			break;
-		case '3':
-			routineinfo();
-			break;
-		case '4':
-			examinfos();
-			break;
-	
-	}
-	
 }
 
 
-void examinfosedit()
+void examinfosedit() // For Adding new notices for the Students
 {
 	
 	FILE *fp;
@@ -427,7 +311,7 @@ void examinfosedit()
 	}
 }
 
-void studentinfo()
+void studentinfo() // For Getting all the information of the students
 {
 	/*
 		add the following items
@@ -503,7 +387,7 @@ void studentinfo()
 	{
 	gotoxy(20,8);
 	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
-	gotoxy(20,9);printf("\xB2");  gotoxy(38,9);printf("\xB2");
+	gotoxy(20,9); printf("\xB2");  gotoxy(38,9); printf("\xB2");
 	gotoxy(20,10);
 	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
 	gotoxy(22,9);printf("\aNo Record Found");
@@ -516,27 +400,7 @@ void studentinfo()
 	mainmenu();
 	break;
 	
-	
-//	if(findstd!='t')  //checks whether conditiion enters inside loop or not
-//	{
-//	gotoxy(20,8);
-//	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
-//	gotoxy(20,9);printf("\xB2");  gotoxy(38,9);printf("\xB2");
-//	gotoxy(20,10);
-//	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
-//	gotoxy(22,9);printf("\aNo Record Found");
-//	}
-//	gotoxy(20,17);
-//	printf("Try another search?(Y/N)");
-//	if(getch()=='y')
-//	studentinfo();
-//	else
-//	mainmenu();
-//	break;
 	}
-	
-	
-	
 	case '2':
 	{
 	char s[15];
@@ -551,24 +415,6 @@ void studentinfo()
 	{
 	if(strcmp(a.name,(s))==0) //checks whether a.name is equal to s or not
 	{
-//	gotoxy(20,7);
-//	printf("The Student is available");
-//	gotoxy(20,8);
-//	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
-//	gotoxy(20,9);
-//	printf("\xB2 ID:%d",a.id);gotoxy(47,9);printf("\xB2");
-//	gotoxy(20,10);
-//	printf("\xB2 Name:%s",a.name);gotoxy(47,10);printf("\xB2");
-//	gotoxy(20,11);
-//	printf("\xB2 LName:%s ",a.lname);gotoxy(47,11);printf("\xB2");
-//	gotoxy(20,12);
-//	printf("\xB2 Field:%s ",a.fields);gotoxy(47,12);printf("\xB2"); gotoxy(47,11);printf("\xB2");
-//	gotoxy(20,13);
-//	printf("\xB2 Semester:%d ",a.semester);gotoxy(47,12);printf("\xB2"); gotoxy(47,11);printf("\xB2");
-//	gotoxy(20,14);
-//	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
-//	d++;
-
 		system("cls");
 		gotoxy(1,1);
 		printf("*********************************Student List*****************************\n");
@@ -623,23 +469,6 @@ void studentinfo()
 	{
 	if(strcmp(a.lname,(s))==0) //checks whether a.name is equal to s or not
 	{
-//	gotoxy(20,7);
-//	printf("The Student is available");
-//	gotoxy(20,8);
-//	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
-//	gotoxy(20,9);
-//	printf("\xB2 ID:%d",a.id);gotoxy(47,9);printf("\xB2");
-//	gotoxy(20,10);
-//	printf("\xB2 Name:%s",a.name);gotoxy(47,10);printf("\xB2");
-//	gotoxy(20,11);
-//	printf("\xB2 LName:%s ",a.lname);gotoxy(47,11);printf("\xB2");
-//	gotoxy(20,12);
-//	printf("\xB2 Field:%s ",a.fields);gotoxy(47,12);printf("\xB2"); gotoxy(47,11);printf("\xB2");
-//	gotoxy(20,13);
-//	printf("\xB2 Semester:%d ",a.semester);gotoxy(47,12);printf("\xB2"); gotoxy(47,11);printf("\xB2");
-//	gotoxy(20,14);
-//	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
-
 		system("cls");
 		gotoxy(1,1);
 		printf("*********************************Student List*****************************\n");
@@ -694,23 +523,6 @@ void studentinfo()
 	{
 	if(strcmp(a.fields,(s))==0) //checks whether a.name is equal to s or not
 	{
-//	gotoxy(20,7);
-//	printf("The Student is available");
-//	gotoxy(20,8);
-//	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
-//	gotoxy(20,9);
-//	printf("\xB2 ID:%d",a.id);gotoxy(47,9);printf("\xB2");
-//	gotoxy(20,10);
-//	printf("\xB2 Name:%s",a.name);gotoxy(47,10);printf("\xB2");
-//	gotoxy(20,11);
-//	printf("\xB2 LName:%s ",a.lname);gotoxy(47,11);printf("\xB2");
-//	gotoxy(20,12);
-//	printf("\xB2 Field:%s ",a.fields);gotoxy(47,12);printf("\xB2"); gotoxy(47,11);printf("\xB2");
-//	gotoxy(20,13);
-//	printf("\xB2 Semester:%d ",a.semester);gotoxy(47,12);printf("\xB2"); gotoxy(47,11);printf("\xB2");
-//	gotoxy(20,14);
-//	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
-//	d++;
 
 		system("cls");
 		gotoxy(1,1);
@@ -769,23 +581,6 @@ void studentinfo()
 	{
 	if(ss==a.semester) //checks whether a.name is equal to s or not
 		{
-//		gotoxy(20,7);
-//	printf("The Students are available\n");
-//	gotoxy(20,8);
-//	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
-//	gotoxy(20,9);
-//	printf("\xB2 ID:%d\t",a.id);printf("\xB2 Name:%s\t",a.name);gotoxy(47,9);printf("\xB2 LName:%s\t",a.lname);printf("\xB2 Field:%s\t",a.fields);printf("\xB2 Semester:%d\t",a.semester);printf("\xB2");
-//	printf("\n");
-//	gotoxy(20,10);
-//	printf("\xB2 Name:%s",a.name);gotoxy(47,10);printf("\xB2");
-//	gotoxy(20,11);
-//	printf("\xB2 LName:%s ",a.lname);gotoxy(47,11);printf("\xB2");
-//	gotoxy(20,12);
-//	printf("\xB2 Field:%s ",a.fields);gotoxy(47,12);printf("\xB2"); gotoxy(47,11);printf("\xB2");
-//	gotoxy(20,13);
-//	printf("\xB2 Semester:%d ",a.semester);gotoxy(47,12);printf("\xB2"); gotoxy(47,11);printf("\xB2");
-//	gotoxy(20,14);
-//	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
 		gotoxy(1,1);
 		printf("*********************************Student List*****************************\n");
 		gotoxy(2,2);
@@ -836,33 +631,12 @@ void studentinfo()
 	{
 		int ss;
 		system("cls");
-//	gotoxy(25,4);
-//	printf("****Whole student list****");
 		int d=0,j=5;
 		int x=20;
 	
 		
 		while(fread(&a,sizeof(a),1,fp)==1)
 			{
-//		gotoxy(x,7);
-//		printf("The Students available are: ");
-//		gotoxy(x,8);
-//		printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
-//		gotoxy(x,9);
-//		printf("\xB2 ID:%d",a.id);gotoxy(47,9);printf("\xB2");
-//		gotoxy(x,10);
-//		printf("\xB2 Name:%s",a.name);gotoxy(47,10);printf("\xB2");
-//		gotoxy(x,11);
-//		printf("\xB2 LName:%s ",a.lname);gotoxy(47,11);printf("\xB2");
-//		gotoxy(x,12);
-//		printf("\xB2 Field:%s ",a.fields);gotoxy(47,12);printf("\xB2"); gotoxy(47,11);printf("\xB2");
-//		gotoxy(x,13);
-//		printf("\xB2 Semester:%d ",a.semester);gotoxy(47,12);printf("\xB2"); gotoxy(47,11);printf("\xB2");
-//		
-//		Sleep(300);
-//		x=x+35;
-//		d++;
-
 			gotoxy(1,1);
 			printf("*********************************Whole Student List*****************************\n");
 			gotoxy(1,2);
@@ -907,16 +681,6 @@ void studentinfo()
 		break;
 		
 	}
-//	printf("\n");
-//	while(d>=0)
-//	{
-//		gotoxy(d*10+10,15);
-//		printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
-//		d--;
-//		Sleep(300);
-//	}
-
-	
 	default :
 	getch();
 	studentinfo();
@@ -924,7 +688,7 @@ void studentinfo()
 	fclose(fp);
 }
 
-void teacherinfo(){
+void teacherinfo(){ // Get the records of Teachers
 	
 	/*
 		add the following items
@@ -950,7 +714,6 @@ void teacherinfo(){
 	fp=fopen("Data_Teacher.dat","rb");
 	while(fread(&aa,sizeof(aa),1,fp)==1)
 	{
-		/* 		scanf("%s%s%d%s",aa.name,aa.lname,&aa.id,aa.fields); */
 		gotoxy(3,j);
 		printf("%s",aa.name);
 		gotoxy(16,j);
@@ -1043,7 +806,7 @@ void routineinfo(){
 		}else{
 			printf("|-----------------------------------------------------------------------------------------------------------------|\n");	
 		}
-	}	
+	}
 }
 
 
@@ -1054,15 +817,6 @@ void examinfos(){
 	*/
 	system("cls");
 	char a[500];
-//	FILE *fp;
-//	fp=fopen("Notice.dat","rb");
-//	rewind(fp);
-//	while(fread(&a,sizeof(a),1,fp)==1)
-//	{
-//		printf("%s\n",a);
-//	}
-//	fclose(fp);
-
 	FILE *fp;
 	fp=fopen("Notice.dat","rb");
 	fseek(fp,-500,2);
@@ -1076,11 +830,6 @@ void examinfos(){
 		if(ftell(fp)%500!=0)
 		break;
 	}
-//
-//	while (fread(&a,sizeof(a),1,fp)==1)
-//	{
-//		printf("%s\n",a);
-//	}
 	fclose(fp);
 	
 	printf("\n\n\n");
@@ -1091,7 +840,7 @@ void examinfos(){
 	exit(0);
 }
 
-void deleteteach()
+void deleteteach() // for deleting a record of certain teacher
 {
 
 	int d=0;
@@ -1142,7 +891,7 @@ void deleteteach()
 	mainmenu();
 }
 
-void deletestd()
+void deletestd() // For deleting a record of certain student
 {
 
 	int d=0;
@@ -1194,7 +943,7 @@ void deletestd()
 	mainmenu();
 }
 
-void edit() 
+void edit() // For Editing the data of existing records
 	{
 
 	system("cls");
@@ -1236,7 +985,7 @@ void edit()
 			teacherinfoedit();
 			break;
 		case '3':
-			routineedit();
+			mainroutineedit();
 			break;
 		case '4':
 			examinfosedit();
@@ -1397,11 +1146,9 @@ void result(){
 }
 
 
-void mainmenu()
+void mainmenu()  // For Main Menu after login success
 {
-	//loaderanim();
 	system("cls");
-	//    textbackground(13);
 	int i;
 	gotoxy(20,3);
 	printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2 MAIN MENU \xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
@@ -1461,7 +1208,7 @@ void mainmenu()
 			system("cls");
 			gotoxy(35,3);
 			
-			printf("Student Management System");
+			printf("Student Assistance System");
 			gotoxy(35,4);
 			printf("Mini Project in C");
 			gotoxy(35,5);
@@ -1487,13 +1234,11 @@ void mainmenu()
 			
 			gotoxy(20,19);
 			printf("Exiting in 3 second...........>\n\n\n");
-			//flushall();
 			Sleep(3000);
 			exit(0);
 		}
 		default:
 		{
-			//gotoxy(10,23);
 			printf("\aWrong Entry!!Please re-entered correct option");
 			if(getch())
 			mainmenu();
@@ -1524,9 +1269,6 @@ void Password(void) //for password option
 	
 	char ch,pass[10];
 	int i=0,j;
-	//textbackground(WHITE);
-	//textcolor(RED);
-	//gotoxy(10,4);
 	for(j=0;j<20;j++)
 	{
 	Sleep(50);
@@ -1545,8 +1287,6 @@ void Password(void) //for password option
 	printf("\n");
 	
 	printf("\t\t\t\t");
-	//gotoxy(10,10);
-	//gotoxy(15,7);
 	printf("Enter Password:");
 	
 	while(ch!=13)
@@ -1563,14 +1303,10 @@ void Password(void) //for password option
 	pass[i] = '\0';
 	if(strcmp(pass,password)==0)
 	{
-	
-		//gotoxy(15,9);
-		//textcolor(BLINK);
 		printf("\n");
 		
 		printf("\t\t\t\t");
 		printf("Password match");
-		//gotoxy(17,10);
 		printf("\n");
 		
 		printf("\t\t\t\t");
@@ -1579,9 +1315,7 @@ void Password(void) //for password option
 		mainmenu();
 	}
 	else
-	{
-		//gotoxy(15,16);
-		
+	{		
 		printf("\n\t\t\t\t");
 		printf("\aWarning!! Incorrect Password");
 		getch();
