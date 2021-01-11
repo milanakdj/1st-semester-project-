@@ -167,17 +167,23 @@ void teacherinfoedit() // For editing the data of existing teacher's record
 	FILE *fp;
 	fp=fopen("Data_Teacher.dat","a+b");
 	char cont;
+	int ret;
 	do
 	{
 		printf("Enter teacher's first name, last name, id, field\n");
-		scanf("%s%s%d%s",aa.name,aa.lname,&aa.id,aa.fields);
-		if(fwrite(&aa,sizeof(struct teach),1,fp)==1)
-		printf("record has been sucessfully added\n");
-		printf("do you want to enter more datas(Y\\N)?\n");
-		fflush(stdin);
-		cont=getchar();
-		cont=tolower(cont);
-	}while(cont=='y');
+		ret = scanf("%s%s%d%s",aa.name,aa.lname,&aa.id,aa.fields);
+		if(ret >= 4){
+			if(fwrite(&aa,sizeof(struct teach),1,fp)==1)
+			printf("record has been sucessfully added\n");
+			printf("do you want to enter more datas(Y\\N)?\n");
+			fflush(stdin);
+			cont=getchar();
+			cont=tolower(cont);
+		}else{
+			printf("ID only takes number:\nPlease re-enter\n");
+			fflush(stdin);
+		}
+	}while(cont=='y' || ret < 4);
 	fclose(fp);
 	printf("enter m or M to go back to main menu\n");
 	printf("_____________________________________\n");
@@ -197,17 +203,24 @@ void studentinfoedit() // For editing the data of existing student's record
 	FILE *fp;
 	fp=fopen("Data_Student.dat","a+b");
 	char cont;
+	int ret;
 	do
 	{
+		here:
 		printf("enter student's first name, last name, semester, id, field\n");
-		scanf("%s%s%d%d%s",a.name,a.lname,&a.semester,&a.id,a.fields);
-		if(fwrite(&a,sizeof(struct std),1,fp)==1)
-		printf("record has been sucessfully added\n");
-		printf("do you want to enter more datas(Y\\N)?\n");
-		fflush(stdin);
-		cont=getchar();
-		cont=tolower(cont);
-	}while(cont=='y');
+		ret = scanf("%s%s%d%d%s",a.name,a.lname,&a.semester,&a.id,a.fields); 
+		if(ret >= 5){
+			if(fwrite(&a,sizeof(struct std),1,fp)==1)
+			printf("record has been sucessfully added\n");
+			printf("do you want to enter more datas(Y\\N)?\n");
+			fflush(stdin);
+			cont=getchar();
+			cont=tolower(cont);	
+		}else{
+			printf("ID and Semester only takes numbers:\nPlease re-enter\n");
+			fflush(stdin);	
+		}
+	}while(cont=='y' || ret < 5);
 	fclose(fp);
 	printf("enter m or M to go back to main menu\n");
 	printf("_____________________________________\n");
@@ -751,6 +764,9 @@ void routineinfo(){
 			printf("|-----------------------------------------------------------------------------------------------------------------|\n");	
 		}
 	}
+	printf("Goto Main Menu?(Y/N)");
+	if(getch()=='y' || getch()=='Y')
+	mainmenu();
 }
 
 
