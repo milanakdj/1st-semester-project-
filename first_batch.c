@@ -35,6 +35,8 @@ int t(void); // time function
 void headMessage(char *message);
 void welcomeMessage();
 void Password();
+int searchById(int);
+int teacherId(int);
 
 
 void mainroutineedit(); // edit function for routine
@@ -56,6 +58,7 @@ struct meroDate // Struct for date format
 {
 int mm,dd,yy;
 };
+
 
 struct std{ // initialize Structure for Student's informations
 	int id;
@@ -167,13 +170,19 @@ void teacherinfoedit() // For editing the data of existing teacher's record
 	FILE *fp;
 	fp=fopen("Data_Teacher.dat","a+b");
 	char cont;
-	int ret;
+	struct teach t1;
+	int ret, flag;
 	do
 	{
 		printf("Enter teacher's first name, last name, id, field\n");
-		ret = scanf("%s%s%d%s",aa.name,aa.lname,&aa.id,aa.fields);
-		if(ret >= 4){
-			if(fwrite(&aa,sizeof(struct teach),1,fp)==1)
+		ret = scanf("%s%s%d%s",t1.name,t1.lname,&t1.id,t1.fields);
+		flag = teacherId(t1.id);
+		if(flag == 1){
+			printf("ID already Exists!!");
+			fflush(stdin);
+		}
+		else if(flag == 0 && ret >= 4){
+			if(fwrite(&t1,sizeof(t1),1,fp)==1)
 			printf("record has been sucessfully added\n");
 			printf("do you want to enter more datas(Y\\N)?\n");
 			fflush(stdin);
@@ -183,7 +192,7 @@ void teacherinfoedit() // For editing the data of existing teacher's record
 			printf("ID only takes number:\nPlease re-enter\n");
 			fflush(stdin);
 		}
-	}while(cont=='y' || ret < 4);
+	}while(cont=='y' || ret < 4 || flag == 1);
 	fclose(fp);
 	printf("enter m or M to go back to main menu\n");
 	printf("_____________________________________\n");
@@ -201,26 +210,31 @@ void studentinfoedit() // For editing the data of existing student's record
 {
 	system("cls");
 	FILE *fp;
+	struct std a1;
 	fp=fopen("Data_Student.dat","a+b");
 	char cont;
-	int ret;
+	int ret, flag;
 	do
 	{
-		here:
 		printf("enter student's first name, last name, semester, id, field\n");
-		ret = scanf("%s%s%d%d%s",a.name,a.lname,&a.semester,&a.id,a.fields); 
-		if(ret >= 5){
-			if(fwrite(&a,sizeof(struct std),1,fp)==1)
+		ret = scanf("%s%s%d%d%s",a1.name,a1.lname,&a1.semester,&a1.id,a1.fields);
+		flag = searchById(a1.id);
+		if(flag == 1){
+			printf("Id already Exists!!\n");
+			fflush(stdin);
+		}		
+		else if(flag == 0 && ret >= 5){
+			if(fwrite(&a1,sizeof(a1),1,fp)==1)
 			printf("record has been sucessfully added\n");
 			printf("do you want to enter more datas(Y\\N)?\n");
 			fflush(stdin);
 			cont=getchar();
-			cont=tolower(cont);	
+			cont=tolower(cont);		
 		}else{
 			printf("ID and Semester only takes numbers:\nPlease re-enter\n");
 			fflush(stdin);	
 		}
-	}while(cont=='y' || ret < 5);
+	}while(cont=='y' || ret < 5 || flag == 1);
 	fclose(fp);
 	printf("enter m or M to go back to main menu\n");
 	printf("_____________________________________\n");
@@ -268,6 +282,19 @@ void examinfosedit() // For Adding new notices for the Students
 	}
 }
 
+int searchById(int id){
+	int flag=0;	
+	fp=fopen("Data_Student.dat","rb+");
+	while(fread(&a,sizeof(a),1,fp)>0)
+	{
+	if(a.id==id)
+	{
+		flag = 1;
+	}
+	}
+	return flag;
+}
+
 void studentinfo() // For Getting all the information of the students
 {
 	/*
@@ -312,17 +339,18 @@ void studentinfo() // For Getting all the information of the students
 	scanf("%d",&d);
 	gotoxy(20,7);
 	printf("Searching........");
-	while(fread(&a,sizeof(a),1,fp)==1)
+	while(fread(&a,sizeof(a),1,fp)>0)
 	{
 	if(a.id==d)
 	{
+//		printf("%s %s %d %s %d",a.name,a.lname,a.id,a.fields,a.semester);
 		Sleep(2);
 		system("cls");
-		gotoxy(1,1);
+//		gotoxy(1,1);
 		printf("*********************************Student List*****************************\n");
 		gotoxy(2,2);
 		printf(" NAME\t\tLNAME\t\tID\t\tFIELD\t\tSEMESTER");
-	
+//	
 		gotoxy(3,j);
 		printf("%s",a.name);
 		gotoxy(16,j);
@@ -333,9 +361,9 @@ void studentinfo() // For Getting all the information of the students
 		printf("%s",a.fields);
 		gotoxy(64,j);
 		printf("%d",a.semester);
-		j++;
-		j++;
-		d++;
+//		j++;
+//		j++;
+//		d++;
 	}
 	
 	}
@@ -356,7 +384,6 @@ void studentinfo() // For Getting all the information of the students
 	else
 	mainmenu();
 	break;
-	
 	}
 	case '2':
 	{
@@ -590,7 +617,6 @@ void studentinfo() // For Getting all the information of the students
 		system("cls");
 		int d=0,j=5;
 		int x=20;
-	
 		
 		while(fread(&a,sizeof(a),1,fp)==1)
 			{
@@ -643,6 +669,15 @@ void studentinfo() // For Getting all the information of the students
 	studentinfo();
 	}
 	fclose(fp);
+}
+
+int teacherId(int id){
+	int flag = 0;
+	fp = fopen("Data_Teacher.dat", "rb");
+	while(fread(&aa,sizeof(aa),1,fp)>0){
+		if(aa.id == id) flag = 1;
+	}
+	return flag;	
 }
 
 void teacherinfo(){ // Get the records of Teachers
