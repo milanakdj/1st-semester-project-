@@ -1017,11 +1017,12 @@ void resultedit() // For editing the result of existing student
 	fp1=fopen("Data_Student_Result.dat","a+b");
 	rewind(fp1);
 	long l;
+	printf("Searching...\n");
 	while(fread(&a,sizeof(a),1,fp)==1)
 	{
-		printf("this is entering the while loop atleast\n");
 		if(d==a.id)
 		{
+			printf("Found ID! Name: %s\n", a.name);
 //			l=sizeof(a);
 //			if(fseek(fp,-l,1)==0){
 			printf("enter the gpa for the student\n");
